@@ -11,7 +11,9 @@ import org.bukkit.plugin.java.JavaPlugin
 import kotlin.coroutines.CoroutineContext
 
 abstract class CoroutineJavaPlugin: JavaPlugin(), CoroutinePlugin, CoroutineScope {
-    override val coroutineContext: CoroutineContext = Job()
+    override val coroutineContext: CoroutineContext by lazy {
+        Job() + mainThreadDispatcher
+    }
 
     override val mainThreadDispatcher: CoroutineDispatcher by lazy {
         MinecraftMainThreadDispatcher(this)
@@ -21,20 +23,20 @@ abstract class CoroutineJavaPlugin: JavaPlugin(), CoroutinePlugin, CoroutineScop
     }
 
     override fun onEnable() {
-        runBlocking {
+        runBlocking(coroutineContext) {
             onEnableAsync()
         }
     }
 
     override fun onDisable() {
-        runBlocking {
+        runBlocking(coroutineContext) {
             onDisableAsync()
             cancel()
         }
     }
 
     override fun onLoad() {
-        runBlocking {
+        runBlocking(coroutineContext) {
             onLoadAsync()
         }
     }
