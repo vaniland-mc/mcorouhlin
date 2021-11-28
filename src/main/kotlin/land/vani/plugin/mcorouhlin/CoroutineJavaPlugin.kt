@@ -5,6 +5,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.runBlocking
+import land.vani.plugin.mcorouhlin.dispatcher.MinecraftAsyncDispatcher
 import land.vani.plugin.mcorouhlin.dispatcher.MinecraftMainThreadDispatcher
 import org.bukkit.plugin.java.JavaPlugin
 import kotlin.coroutines.CoroutineContext
@@ -14,6 +15,9 @@ abstract class CoroutineJavaPlugin: JavaPlugin(), CoroutinePlugin, CoroutineScop
 
     override val mainThreadDispatcher: CoroutineDispatcher by lazy {
         MinecraftMainThreadDispatcher(this)
+    }
+    override val asyncDispatcher: CoroutineDispatcher by lazy {
+        MinecraftAsyncDispatcher(this)
     }
 
     override fun onEnable() {
