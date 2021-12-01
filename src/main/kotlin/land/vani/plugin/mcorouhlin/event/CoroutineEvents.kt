@@ -18,7 +18,6 @@ import org.bukkit.plugin.IllegalPluginAccessException
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.PluginManager
 import org.bukkit.plugin.RegisteredListener
-import org.bukkit.plugin.SimplePluginManager
 import org.bukkit.plugin.java.JavaPluginLoader
 import org.spigotmc.CustomTimingsHandler
 import java.lang.reflect.Method
@@ -35,7 +34,7 @@ fun PluginManager.registerCoroutineEvents(listener: Listener, plugin: CoroutineP
 
     registeredListeners.forEach { (clazz, listeners) ->
         @Suppress("UNCHECKED_CAST")
-        val handlerList = getEventListeners(clazz as Class<out Event>)
+        val handlerList = getEventListeners(clazz)
         handlerList.registerAll(listeners)
     }
 }
@@ -95,8 +94,8 @@ fun fireCoroutineEvents(event: Event): Collection<Job> = event.handlers.register
 private fun createRegisteredCoroutineListener(
     listener: Listener,
     plugin: CoroutinePlugin,
-): Map<Class<*>, Set<RegisteredListener>> {
-    val result = mutableMapOf<Class<*>, MutableSet<RegisteredListener>>()
+): Map<Class<out Event>, Set<RegisteredListener>> {
+    val result = mutableMapOf<Class<out Event>, MutableSet<RegisteredListener>>()
 
     setOf(*listener.javaClass.methods, *listener.javaClass.declaredMethods)
         .asSequence()
@@ -113,14 +112,15 @@ private fun createRegisteredCoroutineListener(
         }
         .map { method -> method to method.getAnnotation(EventHandler::class.java)!! }
         .map { (method, eventHandler) ->
-            var eventClass: Class<*> = method.parameterTypes[0].asSubclass(Event::class.java)
-            while (Event::class.java.isAssignableFrom(eventClass)) {
-                if (eventClass.getAnnotation(Deprecated::class.java) == null) {
-                    eventClass = eventClass.superclass
+            val eventClass: Class<out Event> = method.parameterTypes[0].asSubclass(Event::class.java)
+            var clazz: Class<*> = eventClass
+            while (Event::class.java.isAssignableFrom(clazz)) {
+                if (clazz.getAnnotation(Deprecated::class.java) == null) {
+                    clazz = clazz.superclass
                     continue
                 }
 
-                val warning = eventClass.getAnnotation(Warning::class.java)
+                val warning = clazz.getAnnotation(Warning::class.java)
                 val warningState = plugin.server.warningState
                 if (!warningState.printFor(warning)) {
                     break
@@ -130,7 +130,7 @@ private fun createRegisteredCoroutineListener(
                     Level.WARNING,
                     """"%s" has registered a listener for %s on method "%s", but the event is Deprecated. "%s"; please notify the authors %s.""".format(
                         plugin.description.fullName,
-                        eventClass.name,
+                        clazz.name,
                         method.toGenericString(),
                         if (warning?.reason?.isNotEmpty() == true) warning.reason else "Server performance will be affected",
                         plugin.description.authors.joinToString()
@@ -149,7 +149,7 @@ private fun createRegisteredCoroutineListener(
             )
 
             @Suppress("UNCHECKED_CAST")
-            val executor = CoroutineEventExecutor(eventClass as Class<out Event>, method, plugin, timings)
+            val executor = CoroutineEventExecutor(eventClass, method, plugin, timings)
             result.getOrPut(eventClass) { mutableSetOf() }
                 .add(
                     CoroutineRegisteredListener(
@@ -218,7 +218,7 @@ internal class CoroutineEventLambdaExecutor<T : Event>(
     fun executeSuspend(event: Event): Job = executeEvent(event)
 
     private fun executeEvent(event: Event): Job {
-        if (!eventClass.isAssignableFrom(eventClass.javaClass)) {
+        if (!eventClass.isAssignableFrom(event.javaClass)) {
             return Job()
         }
 
@@ -271,10 +271,7 @@ private val Method.isSuspendEventHandler: Boolean
     get() = parameterTypes.size == 2 && Event::class.java.isAssignableFrom(parameterTypes[0])
             && Continuation::class.java.isAssignableFrom(parameterTypes[1])
 
-private val GET_EVENT_LISTENERS_METHOD = SimplePluginManager::class.java
-    .getDeclaredMethod("getEventListeners", Class::class.java).apply {
-        isAccessible = true
-    }
-
 private fun PluginManager.getEventListeners(type: Class<out Event>): HandlerList =
-    GET_EVENT_LISTENERS_METHOD.invoke(this, type) as HandlerList
+    this.javaClass.getDeclaredMethod("getEventListeners", Class::class.java).apply {
+        isAccessible = true
+    }(this, type) as HandlerList

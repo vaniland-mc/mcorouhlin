@@ -18,7 +18,17 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2-native-mt")
 
     compileOnly("org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT")
+
+    testImplementation("io.kotest:kotest-runner-junit5:5.0.0")
+    testImplementation("io.kotest:kotest-assertions-core:5.0.0")
+    testImplementation("com.github.seeseemelk:MockBukkit-v1.17:1.10.4")
+}
+
+tasks {
+    withType<Test> {
+        useJUnitPlatform()
+    }
 }
