@@ -9,5 +9,4 @@ private object BoolMatcher : CommandExecutionContext<Boolean> {
     override fun parse(raw: String): Boolean? = raw.toBooleanStrictOrNull()
 }
 
-@Suppress("unused")
 fun boolMatcher(): CommandExecutionContext<Boolean> = BoolMatcher

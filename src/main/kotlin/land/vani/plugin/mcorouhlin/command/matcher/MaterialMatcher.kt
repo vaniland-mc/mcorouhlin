@@ -13,7 +13,6 @@ private object MaterialMatcher : CommandExecutionContext<Material> {
     }.getOrNull()
 }
 
-@Suppress("unused")
 fun materialMatcher(): CommandExecutionContext<Material> = MaterialMatcher
 
 private object BlockMatcher : CommandExecutionContext<Material> {
@@ -25,5 +24,4 @@ private object BlockMatcher : CommandExecutionContext<Material> {
     }.getOrNull()?.takeIf { it.isBlock }
 }
 
-@Suppress("unused")
 fun blockMatcher(): CommandExecutionContext<Material> = BlockMatcher

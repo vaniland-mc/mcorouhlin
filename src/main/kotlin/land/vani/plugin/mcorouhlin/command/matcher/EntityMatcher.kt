@@ -12,5 +12,4 @@ private object EntityMatcher : CommandExecutionContext<EntityType> {
     }.getOrNull()
 }
 
-@Suppress("unused")
 fun entityMatcher(): CommandExecutionContext<EntityType> = EntityMatcher

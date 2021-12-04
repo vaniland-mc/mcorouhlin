@@ -11,7 +11,6 @@ private object OnlinePlayerMatcher : CommandExecutionContext<Player> {
     override fun parse(raw: String): Player? = Bukkit.getPlayer(raw)
 }
 
-@Suppress("unused")
 fun playerMatcher(): CommandExecutionContext<Player> = OnlinePlayerMatcher
 
 private object OfflinePlayerMatcher : CommandExecutionContext<OfflinePlayer> {
@@ -21,7 +20,6 @@ private object OfflinePlayerMatcher : CommandExecutionContext<OfflinePlayer> {
     override fun parse(raw: String): OfflinePlayer = Bukkit.getOfflinePlayer(raw)
 }
 
-@Suppress("unused")
 fun offlinePlayerMatcher(): CommandExecutionContext<OfflinePlayer> = OfflinePlayerMatcher
 
 @JvmName("playerWithPermissionMatcherString")

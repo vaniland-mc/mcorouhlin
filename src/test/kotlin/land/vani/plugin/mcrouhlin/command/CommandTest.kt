@@ -6,7 +6,6 @@ import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
 import land.vani.plugin.mcorouhlin.command.CommandCancelException
 import land.vani.plugin.mcorouhlin.command.command
-import land.vani.plugin.mcorouhlin.command.matcher.listMatcher
 import land.vani.plugin.mcrouhlin.MockCoroutinePlugin
 import land.vani.plugin.mcrouhlin.util.randomString
 import java.util.concurrent.atomic.AtomicBoolean
@@ -46,11 +45,11 @@ class CommandTest : ShouldSpec({
             val commandName = randomString()
             val command = plugin.command(commandName) {
                 arguments {
-                    argument(listMatcher("a", "abc")) {}
-                    argument(listMatcher("b", "bb")) {
-                        argument(listMatcher("c", "cc")) {}
+                    stringArgument("a", "abc") {}
+                    stringArgument("b", "bb") {
+                        stringArgument("c", "cc") {}
                     }
-                    argument(listMatcher("あいうえお")) {}
+                    stringArgument("あいうえお") {}
                 }
             }
             val player = server.addPlayer()
@@ -74,11 +73,11 @@ class CommandTest : ShouldSpec({
             beforeTest {
                 plugin.command(commandName) {
                     arguments {
-                        argument(listMatcher("a")) {
+                        stringArgument("a") {
                             withEffects {
                                 executed1.set(true)
                             }
-                            argument(listMatcher("b")) {
+                            stringArgument("b") {
                                 withEffects {
                                     executed2.set(true)
                                 }
