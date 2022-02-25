@@ -32,8 +32,8 @@ dependencies {
 
     compileOnly("org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT")
 
-    testImplementation("io.kotest:kotest-runner-junit5:5.0.1")
-    testImplementation("io.kotest:kotest-assertions-core:5.0.1")
+    testImplementation("io.kotest:kotest-runner-junit5:5.1.0")
+    testImplementation("io.kotest:kotest-assertions-core:5.1.0")
     testImplementation("com.github.seeseemelk:MockBukkit-v1.17:1.10.4")
 }
 
