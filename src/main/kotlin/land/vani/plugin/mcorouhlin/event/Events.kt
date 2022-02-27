@@ -6,19 +6,11 @@ import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 
+@EventDsl
 class Events(
     @PublishedApi
     internal val plugin: CoroutinePlugin,
 ) : Listener {
-    @Deprecated(
-        "Could not use 'events' method in 'events' block",
-        level = DeprecationLevel.ERROR,
-        replaceWith = ReplaceWith("throw AssertionError()")
-    )
-    fun events(block: Events.() -> Unit) {
-        throw AssertionError()
-    }
-
     inline fun <reified T : Event> on(
         priority: EventPriority = EventPriority.NORMAL,
         ignoreCancelled: Boolean = false,

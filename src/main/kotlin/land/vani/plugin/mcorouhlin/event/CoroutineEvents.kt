@@ -104,10 +104,14 @@ private fun createRegisteredCoroutineListener(
         .filterNot { it.isBridge || it.isSynthetic }
         .onEach { it.isAccessible = true }
         .filter { method ->
-            (method.isEventHandler || method.isSuspendEventHandler).also {
-                if (!it) {
-                    plugin.logger.severe("${plugin.description.fullName} attempted to register an invalid SuspendEventHandler method signature.")
-                }
+            if (method.isEventHandler || method.isSuspendEventHandler) {
+                true
+            } else {
+                plugin.logger.severe(
+                    "${plugin.description.fullName} attempted to register " +
+                        "an invalid SuspendEventHandler method signature."
+                )
+                false
             }
         }
         .map { method -> method to method.getAnnotation(EventHandler::class.java)!! }
@@ -126,15 +130,22 @@ private fun createRegisteredCoroutineListener(
                     break
                 }
 
-                plugin.logger.log(
-                    Level.WARNING,
-                    """"%s" has registered a listener for %s on method "%s", but the event is Deprecated. "%s"; please notify the authors %s.""".format(
+                val message = "\"%s\" has registered a listener for %s on method \"%s\", " +
+                    "but the event is Deprecated. \"%s\"; please notify the authors %s.".format(
                         plugin.description.fullName,
                         clazz.name,
                         method.toGenericString(),
-                        if (warning?.reason?.isNotEmpty() == true) warning.reason else "Server performance will be affected",
+                        if (warning?.reason?.isNotEmpty() == true) {
+                            warning.reason
+                        } else {
+                            "Server performance will be affected"
+                        },
                         plugin.description.authors.joinToString()
-                    ),
+                    )
+
+                plugin.logger.log(
+                    Level.WARNING,
+                    message,
                     if (warningState == Warning.WarningState.ON) {
                         AuthorNagException(null)
                     } else null
@@ -144,7 +155,8 @@ private fun createRegisteredCoroutineListener(
         }
         .forEach { (method, eventClass, eventHandler) ->
             val timings = CustomTimingsHandler(
-                "Plugin: ${plugin.description.fullName} Event: ${listener.javaClass.name}::${method.name}(${eventClass.simpleName})",
+                "Plugin: ${plugin.description.fullName} " +
+                    "Event: ${listener.javaClass.name}::${method.name}(${eventClass.simpleName})",
                 JavaPluginLoader.pluginParentTimer
             )
 
@@ -200,7 +212,9 @@ internal class CoroutineEventExecutor<T : Event>(
             } else if (method.isSuspendEventHandler) {
                 method.invokeSuspend(listener, event)
             } else {
-                throw IllegalArgumentException("Method does not have the EventHandler annotation or is an invalid method.")
+                throw IllegalArgumentException(
+                    "Method does not have the EventHandler annotation or is an invalid method."
+                )
             }
         }
     }
@@ -268,8 +282,8 @@ private val Method.isEventHandler: Boolean
     get() = parameterTypes.size == 1 && Event::class.java.isAssignableFrom(parameterTypes[0])
 
 private val Method.isSuspendEventHandler: Boolean
-    get() = parameterTypes.size == 2 && Event::class.java.isAssignableFrom(parameterTypes[0])
-            && Continuation::class.java.isAssignableFrom(parameterTypes[1])
+    get() = parameterTypes.size == 2 && Event::class.java.isAssignableFrom(parameterTypes[0]) &&
+        Continuation::class.java.isAssignableFrom(parameterTypes[1])
 
 private fun PluginManager.getEventListeners(type: Class<out Event>): HandlerList =
     this.javaClass.getDeclaredMethod("getEventListeners", Class::class.java).apply {

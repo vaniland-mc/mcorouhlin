@@ -34,9 +34,17 @@ abstract class CoroutineJavaPlugin : JavaPlugin, CoroutinePlugin, CoroutineScope
         MinecraftAsyncDispatcher(this)
     }
 
-    override suspend fun onEnableAsync() {}
-    override suspend fun onDisableAsync() {}
-    override suspend fun onLoadAsync() {}
+    override suspend fun onEnableAsync() {
+        // default empty
+    }
+
+    override suspend fun onDisableAsync() {
+        // default empty
+    }
+
+    override suspend fun onLoadAsync() {
+        // default empty
+    }
 
     override fun onEnable() {
         runBlocking {
