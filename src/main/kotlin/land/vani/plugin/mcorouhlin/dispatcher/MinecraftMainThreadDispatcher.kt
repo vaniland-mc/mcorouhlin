@@ -6,8 +6,8 @@ import org.bukkit.plugin.Plugin
 import kotlin.coroutines.CoroutineContext
 
 internal class MinecraftMainThreadDispatcher(
-    private val plugin: Plugin
-): CoroutineDispatcher() {
+    private val plugin: Plugin,
+) : CoroutineDispatcher() {
     override fun dispatch(context: CoroutineContext, block: Runnable) {
         if (!plugin.isEnabled) {
             return

@@ -4,7 +4,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import org.bukkit.plugin.Plugin
 
-interface CoroutinePlugin: Plugin, CoroutineScope {
+interface CoroutinePlugin : Plugin, CoroutineScope {
     val mainThreadDispatcher: CoroutineDispatcher
     val asyncDispatcher: CoroutineDispatcher
 
