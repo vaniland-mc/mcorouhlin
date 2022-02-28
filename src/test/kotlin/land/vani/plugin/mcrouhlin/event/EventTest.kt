@@ -1,9 +1,9 @@
 package land.vani.plugin.mcrouhlin.event
 
-import be.seeseemelk.mockbukkit.MockBukkit
-import be.seeseemelk.mockbukkit.ServerMock
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldNotBe
+import land.vani.mockpaper.MockPaper
+import land.vani.mockpaper.ServerMock
 import land.vani.plugin.mcorouhlin.event.events
 import land.vani.plugin.mcorouhlin.event.registerCoroutineEvents
 import land.vani.plugin.mcrouhlin.MockCoroutinePlugin
@@ -17,8 +17,8 @@ class EventTest : ShouldSpec({
     lateinit var plugin: MockCoroutinePlugin
 
     beforeTest {
-        server = MockBukkit.getOrCreateMock()
-        plugin = MockBukkit.loadSimple(MockCoroutinePlugin::class.java)
+        server = MockPaper.mock()
+        plugin = server.pluginManager.loadSimple<MockCoroutinePlugin>()
     }
 
     context("plugin#events block") {

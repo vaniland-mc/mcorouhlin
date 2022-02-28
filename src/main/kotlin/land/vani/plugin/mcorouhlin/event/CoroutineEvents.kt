@@ -1,5 +1,7 @@
 package land.vani.plugin.mcorouhlin.event
 
+import co.aikar.timings.Timing
+import co.aikar.timings.Timings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -18,8 +20,6 @@ import org.bukkit.plugin.IllegalPluginAccessException
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.PluginManager
 import org.bukkit.plugin.RegisteredListener
-import org.bukkit.plugin.java.JavaPluginLoader
-import org.spigotmc.CustomTimingsHandler
 import java.lang.reflect.Method
 import java.util.logging.Level
 import kotlin.coroutines.Continuation
@@ -154,10 +154,9 @@ private fun createRegisteredCoroutineListener(
             Triple(method, eventClass, eventHandler)
         }
         .forEach { (method, eventClass, eventHandler) ->
-            val timings = CustomTimingsHandler(
-                "Plugin: ${plugin.description.fullName} " +
-                    "Event: ${listener.javaClass.name}::${method.name}(${eventClass.simpleName})",
-                JavaPluginLoader.pluginParentTimer
+            val timings = Timings.of(
+                plugin,
+                "Event: ${listener.javaClass.name}::${method.name}(${eventClass.simpleName})",
             )
 
             @Suppress("UNCHECKED_CAST")
@@ -181,7 +180,7 @@ internal class CoroutineEventExecutor<T : Event>(
     private val eventClass: Class<T>,
     private val method: Method,
     private val plugin: CoroutinePlugin,
-    private val timings: CustomTimingsHandler,
+    private val timings: Timing,
 ) : EventExecutor {
     override fun execute(listener: Listener, event: Event) {
         executeEvent(listener, event)

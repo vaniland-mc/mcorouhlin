@@ -15,13 +15,18 @@ version = "0.1.0"
 
 repositories {
     mavenCentral()
+    maven("https://papermc.io/repo/repository/maven-public/") {
+        content {
+            includeGroup("io.papermc.paper")
+        }
+    }
     maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") {
         content {
-            includeGroup("org.bukkit")
             includeGroup("org.spigotmc")
         }
     }
     maven("https://oss.sonatype.org/content/repositories/central")
+    mavenLocal()
 }
 
 dependencies {
@@ -31,12 +36,15 @@ dependencies {
     implementation(kotlin("reflect"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+    implementation("com.charleskorn.kaml:kaml:0.40.0")
 
-    compileOnly("org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:dev-bundle:1.18.1-R0.1-SNAPSHOT")
+    testCompileOnly("io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT")
 
     testImplementation("io.kotest:kotest-runner-junit5:5.1.0")
     testImplementation("io.kotest:kotest-assertions-core:5.1.0")
-    testImplementation("com.github.seeseemelk:MockBukkit-v1.17:1.13.0")
+    testImplementation("land.vani.mockpaper:MockPaper-1.18.1:1.0.1")
 }
 
 val targetJavaVersion = 17
