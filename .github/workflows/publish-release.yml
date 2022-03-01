@@ -35,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Package
-          path: build/libs
+          path: "**/build/libs"
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v2
