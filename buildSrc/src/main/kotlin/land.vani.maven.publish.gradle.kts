@@ -34,7 +34,7 @@ val publishing = extensions.getByName<PublishingExtension>("publishing").apply {
             artifact(tasks["sourcesJar"])
             artifact(tasks["javadocJar"])
 
-            groupId = "land.vani.mockpaper"
+            groupId = "land.vani.mcorouhlin"
             artifactId = project.name
             version = property("mcorouhlin.version").toString()
             pom {
