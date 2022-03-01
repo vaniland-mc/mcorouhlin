@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm")
     id("land.vani.setup.kotlin")
+    id("land.vani.maven.publish")
 }
 
 repositories {

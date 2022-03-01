@@ -1,0 +1,93 @@
+name: Publish Release
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - closed
+      - synchronize
+
+jobs:
+  publish-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: "17"
+          distribution: "temurin"
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', 'gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', 'gradle/wrapper/gradle-wrapper.properties') }}
+            ${{ runner.os }}-gradle-
+      - name: Validate gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: Build
+        run: ./gradlew build
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Package
+          path: build/libs
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-results
+          path: build/test-results/test
+      - name: Run koverXmlReport
+        if: always()
+        run: ./gradlew koverXmlReport
+      - name: Upload coverage reports
+        if: always()
+        uses: codecov/codecov-action@v2
+        with:
+          files: build/reports/kover/project-xml/report.xml
+      - name: Cleanup Gradle caches
+        run: |
+          rm -f ~/.gradle/caches/modules-2/modules-2.lock
+          rm -f ~/.gradle/caches/modules-2/gc.properties
+
+      - name: Get release-label
+        id: release-label
+        if: ${{ github.event.pull_request.merged == true }}
+        uses: actions-ecosystem/action-release-label@v1
+        with:
+          label_prefix: release/
+      - name: Get latest tag
+        id: get-latest-tag
+        if: ${{ steps.release-label.outputs.level != null }}
+        uses: actions-ecosystem/action-get-latest-tag@v1
+        with:
+          semver_only: true
+      - name: Bump sember
+        id: bump-semver
+        if: ${{ steps.release-label.outputs.level != null }}
+        uses: actions-ecosystem/action-bump-semver@v1
+        with:
+          current_version: ${{ steps.get-latest-tag.outputs.tag }}
+          level: ${{ steps.release-label.outputs.level }}
+      - name: Publish
+        if: ${{ steps.bump-semver.outputs.new_version != null }}
+        run: |
+          SEMANTIC_NEW_VERSION=$(echo ${{ steps.bump-semver.outputs.new_version }} | sed -e 's/^v//')
+          ./gradlew -Pmockpaper.version=$SEMANTIC_NEW_VERSION publishMavenPublicationToOSSRHRepository
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
+          SIGNING_SECRET_KEY: ${{ secrets.SIGNING_SECRET_KEY }}
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+      - name: Push tag
+        if: ${{ steps.bump-semver.outputs.new_version != null }}
+        uses: actions-ecosystem/action-push-tag@v1
+        with:
+          tag: ${{ steps.bump-semver.outputs.new_version }}
+          message: '${{ steps.bump-semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
