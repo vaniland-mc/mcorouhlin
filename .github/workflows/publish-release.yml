@@ -41,15 +41,15 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: test-results
-          path: build/test-results/test
-      - name: Run koverXmlReport
+          path: "**/build/test-results/test"
+      - name: Run koverMergedXmlReport
         if: always()
-        run: ./gradlew koverXmlReport
+        run: ./gradlew koverMergedXmlReport
       - name: Upload coverage reports
         if: always()
         uses: codecov/codecov-action@v2
         with:
-          files: build/reports/kover/project-xml/report.xml
+          files: build/reports/kover/merged.xml
       - name: Cleanup Gradle caches
         run: |
           rm -f ~/.gradle/caches/modules-2/modules-2.lock

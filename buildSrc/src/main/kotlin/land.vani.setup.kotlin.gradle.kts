@@ -1,11 +1,9 @@
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.report.ReportMergeTask
-import kotlinx.kover.api.KoverTaskExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm")
-    id("org.jetbrains.kotlinx.kover")
     id("io.gitlab.arturbosch.detekt")
 }
 
@@ -41,14 +39,6 @@ tasks {
 
     withType<Test> {
         useJUnitPlatform()
-
-        extensions.configure<KoverTaskExtension> {
-            isDisabled = false
-        }
-    }
-
-    koverXmlReport {
-        isEnabled = true
     }
 
     tasks.withType<Detekt> {
