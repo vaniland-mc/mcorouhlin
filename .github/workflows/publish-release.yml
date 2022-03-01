@@ -8,6 +8,9 @@ on:
       - reopened
       - closed
       - synchronize
+  push:
+    branches:
+      - main
 
 jobs:
   publish-release:
