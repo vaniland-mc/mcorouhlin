@@ -1,11 +1,10 @@
 import io.gitlab.arturbosch.detekt.Detekt
-import kotlinx.kover.api.KoverTaskExtension
+import io.gitlab.arturbosch.detekt.report.ReportMergeTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm")
     id("io.gitlab.arturbosch.detekt")
-    id("org.jetbrains.kotlinx.kover")
 }
 
 repositories {
@@ -40,20 +39,37 @@ tasks {
 
     withType<Test> {
         useJUnitPlatform()
-
-        extensions.configure<KoverTaskExtension> {
-            isDisabled = false
-        }
     }
 
-    withType<Detekt> {
+    tasks.withType<Detekt> {
+        jvmTarget = "$targetJavaVersion"
         reports {
             xml.required.set(true)
+            sarif.required.set(true)
         }
-        jvmTarget = "16"
-    }
 
-    koverXmlReport {
-        isEnabled = true
+        val sarifReportMerge by rootProject.tasks.getting(ReportMergeTask::class)
+        finalizedBy(sarifReportMerge)
+        sarifReportMerge.input.from(sarifReportFile)
+
+        val xmlReportMerge by rootProject.tasks.getting(ReportMergeTask::class)
+        finalizedBy(xmlReportMerge)
+        xmlReportMerge.input.from(xmlReportFile)
+    }
+}
+
+detekt {
+    parallel = true
+    config = rootProject.files("config/detekt/detekt.yml")
+    buildUponDefaultConfig = true
+}
+
+configurations.all {
+    resolutionStrategy {
+        eachDependency {
+            if (requested.group == "org.jetbrains.kotlin") {
+                useVersion("1.6.10")
+            }
+        }
     }
 }
