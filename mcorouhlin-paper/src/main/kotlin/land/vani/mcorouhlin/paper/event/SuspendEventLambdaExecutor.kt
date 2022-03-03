@@ -31,8 +31,7 @@ internal class SuspendEventLambdaExecutor<T : Event>(
         }
 
         return plugin.launch(dispatcher) {
-            @Suppress("UNCHECKED_CAST")
-            handler(event as T)
+            handler(eventClass.cast(event))
         }
     }
 }

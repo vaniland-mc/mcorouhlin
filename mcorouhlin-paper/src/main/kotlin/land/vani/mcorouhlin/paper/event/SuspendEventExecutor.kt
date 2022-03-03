@@ -37,12 +37,12 @@ internal class SuspendEventExecutor<T : Event>(
                 if (!event.isAsynchronous) {
                     timings.startTiming()
                 }
-                method.invoke(listener, event)
+                method.invoke(listener, eventClass.cast(event))
                 if (!event.isAsynchronous) {
                     timings.stopTiming()
                 }
             } else if (method.isSuspendEventHandler) {
-                method.invokeSuspend(listener, event)
+                method.invokeSuspend(listener, eventClass.cast(event))
             } else {
                 throw IllegalArgumentException(
                     "Method does not have the EventHandler annotation or is an invalid method."

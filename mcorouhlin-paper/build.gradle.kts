@@ -17,6 +17,7 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT")
     compileOnly("io.papermc.paper:dev-bundle:1.18.1-R0.1-SNAPSHOT")
 
-    testImplementation("land.vani.mockpaper:MockPaper-1.18.1:1.0.1")
     testCompileOnly("io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT")
+    testImplementation("land.vani.mockpaper:MockPaper-1.18.1:1.0.1")
+    testImplementation(kotlin("reflect"))
 }
