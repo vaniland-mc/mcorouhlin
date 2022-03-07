@@ -1,6 +1,5 @@
-package land.vani.mcorouhlin.paper.event
+package land.vani.mcorouhlin.paper
 
-import land.vani.mcorouhlin.paper.McorouhlinKotlinPlugin
 import org.bukkit.plugin.PluginDescriptionFile
 import org.bukkit.plugin.java.JavaPluginLoader
 import java.io.File

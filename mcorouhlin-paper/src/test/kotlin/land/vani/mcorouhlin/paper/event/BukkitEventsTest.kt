@@ -2,6 +2,7 @@ package land.vani.mcorouhlin.paper.event
 
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
+import land.vani.mcorouhlin.paper.TestMcorouhlinPlugin
 import land.vani.mockpaper.MockPaper
 import land.vani.mockpaper.ServerMock
 import land.vani.mockpaper.block.BlockMock

@@ -5,6 +5,7 @@ import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.test.runTest
+import land.vani.mcorouhlin.paper.TestMcorouhlinPlugin
 import land.vani.mockpaper.MockPaper
 import land.vani.mockpaper.ServerMock
 import net.kyori.adventure.text.Component
