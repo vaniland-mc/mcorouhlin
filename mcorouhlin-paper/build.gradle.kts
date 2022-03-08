@@ -16,4 +16,8 @@ dependencies {
     api(project(":mcorouhlin-api"))
     compileOnly("io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT")
     compileOnly("io.papermc.paper:dev-bundle:1.18.1-R0.1-SNAPSHOT")
+
+    testCompileOnly("io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT")
+    testImplementation("land.vani.mockpaper:MockPaper-1.18.1:1.1.0")
+    testImplementation(kotlin("reflect"))
 }
