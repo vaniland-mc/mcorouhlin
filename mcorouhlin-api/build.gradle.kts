@@ -4,6 +4,7 @@ plugins {
 }
 
 dependencies {
+    api(kotlin("reflect"))
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
     api("org.jetbrains:annotations:23.0.0")
 
