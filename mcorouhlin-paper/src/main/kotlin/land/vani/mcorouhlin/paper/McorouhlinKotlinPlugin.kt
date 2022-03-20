@@ -78,10 +78,7 @@ abstract class McorouhlinKotlinPlugin : JavaPlugin, McorouhlinPlugin {
         }
     }
 
-    /**
-     * Register events with [Events].
-     */
-    fun events(block: Events<Event>.() -> Unit) {
+    override fun events(block: Events<Event>.() -> Unit) {
         BukkitEvents(this).apply(block)
     }
 }
