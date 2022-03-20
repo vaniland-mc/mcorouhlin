@@ -4,7 +4,9 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import land.vani.mcorouhlin.dispatcher.MinecraftAsyncDispatcher
 import land.vani.mcorouhlin.dispatcher.MinecraftMainThreadDispatcher
+import land.vani.mcorouhlin.event.Events
 import land.vani.mcorouhlin.permission.PermissionRegisterer
+import org.bukkit.event.Event
 import org.bukkit.plugin.Plugin
 
 /**
@@ -37,4 +39,9 @@ interface McorouhlinPlugin : Plugin, CoroutineScope, PermissionRegisterer {
      * Called when this plugin is load.
      */
     suspend fun onLoadAsync()
+
+    /**
+     * Register events with [Events].
+     */
+    fun events(block: Events<Event>.() -> Unit)
 }

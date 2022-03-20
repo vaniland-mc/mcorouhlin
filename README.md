@@ -41,3 +41,15 @@ enum class Permissions(
     ;
 }
 ```
+
+### Inventory DSL
+
+```kotlin
+val inventory = plugin.inventory(Component.text("some inventory")) {
+    default(itemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE))
+
+    slot(1, itemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE)) {
+        // on clicked
+    }
+}
+```
