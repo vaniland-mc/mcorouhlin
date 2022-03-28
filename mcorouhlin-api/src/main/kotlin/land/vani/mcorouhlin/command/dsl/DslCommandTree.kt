@@ -88,7 +88,7 @@ sealed class DslCommandTree<S, A : ArgumentBuilder<S, A>>(
         return addChildAndApply(argumentNode, null)
     }
 
-    open fun subcommands(vararg commands: Command<S>) {
+    open fun subCommands(vararg commands: Command<S>) {
         subcommands += commands
     }
 

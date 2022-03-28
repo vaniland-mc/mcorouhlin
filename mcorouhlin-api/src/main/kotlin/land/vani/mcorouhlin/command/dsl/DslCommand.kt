@@ -83,8 +83,8 @@ class DslCommandBuilder<S>(private var dslNode: DslCommandTree<S, *>) {
         return ReadOnlyProperty { _, _ -> argument.getter() }
     }
 
-    fun subcommands(vararg commands: Command<S>) {
-        dslNode.subcommands(*commands)
+    fun subCommands(vararg commands: Command<S>) {
+        dslNode.subCommands(*commands)
     }
 }
 
