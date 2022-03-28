@@ -17,14 +17,15 @@
 package land.vani.mcorouhlin.command
 
 import com.mojang.brigadier.context.CommandContext
+import land.vani.mcorouhlin.command.dsl.CommandDsl
 
 /**
  * The context for the execution of commands.
  *
  * @see ExecutableCommand
  */
+@CommandDsl
 interface ExecutionContext<S> {
-
     /**
      * The Brigadier command context for this command.
      */

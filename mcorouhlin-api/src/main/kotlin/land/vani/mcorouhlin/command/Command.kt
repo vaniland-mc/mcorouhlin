@@ -20,7 +20,6 @@ import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 
 interface Command<S> {
-
     /**
      * Builds a [literal][LiteralArgumentBuilder] argument that can be used by
      * the [register][CommandDispatcher.register] function on a dispatcher to

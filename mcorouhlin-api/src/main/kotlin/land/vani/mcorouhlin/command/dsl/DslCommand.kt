@@ -29,7 +29,6 @@ open class DslCommand<S>(
     private val apply: (LiteralArgumentBuilder<S>.() -> Unit)? = null,
     private val block: (DslCommandBuilder<S>.() -> Unit),
 ) : Command<S> {
-
     constructor(
         literal: String,
         builderBlock: DslCommandBuilder<S>.() -> Unit,
@@ -46,8 +45,8 @@ open class DslCommand<S>(
     }
 }
 
+@CommandDsl
 class DslCommandBuilder<S>(private var dslNode: DslCommandTree<S, *>) {
-
     fun executes(command: BrigadierCommand<S>) {
         dslNode.executes(command)
     }

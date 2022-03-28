@@ -32,7 +32,6 @@ import com.mojang.brigadier.Command as BrigadierCommand
 sealed class DslCommandTree<S, A : ArgumentBuilder<S, A>>(
     private val contextRef: ContextRef<S>,
 ) {
-
     protected var command: BrigadierCommand<S>? = null
 
     private val children = mutableListOf<DslCommandTree<S, out ArgumentBuilder<S, *>>>()
@@ -130,7 +129,6 @@ class LiteralNode<S>(
     private val literal: String,
     contextRef: ContextRef<S>,
 ) : DslCommandTree<S, LiteralArgumentBuilder<S>>(contextRef) {
-
     override fun buildNode(): LiteralArgumentBuilder<S> {
         return LiteralArgumentBuilder.literal(literal)
     }
@@ -140,7 +138,6 @@ sealed class ArgumentNode<S, T, V>(
     private val argument: CommandArgument<S, T, V>,
     contextRef: ContextRef<S>,
 ) : DslCommandTree<S, RequiredArgumentBuilder<S, T>>(contextRef) {
-
     val getter: () -> V = { argument.getValue(contextRef.context) }
 
     override fun buildNode(): RequiredArgumentBuilder<S, T> {
@@ -158,7 +155,6 @@ class OptionalArgumentNode<S, T, V>(
     argument: OptionalArgument<S, T, *, V>,
     contextRef: ContextRef<S>,
 ) : ArgumentNode<S, T, V>(argument, contextRef) {
-
     override fun literal(
         literal: String,
         apply: (LiteralArgumentBuilder<S>.() -> Unit)?,
