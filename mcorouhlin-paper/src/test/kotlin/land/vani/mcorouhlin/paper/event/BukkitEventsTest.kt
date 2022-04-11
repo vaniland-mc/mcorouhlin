@@ -14,15 +14,18 @@ class BukkitEventsTest : DescribeSpec({
     lateinit var server: ServerMock
     lateinit var plugin: TestMcorouhlinPlugin
 
-    beforeTest {
+    beforeEach {
         server = MockPaper.mock()
         plugin = server.pluginManager.loadSimple()
     }
 
-    describe("events") {
-        val events = BukkitEvents(plugin)
+    afterEach {
+        MockPaper.unmock()
+    }
 
+    describe("events") {
         it("on") {
+            val events = BukkitEvents(plugin)
             val player = server.addPlayer()
             var executed = false
             events.on<PlayerJoinEvent> {
@@ -36,6 +39,7 @@ class BukkitEventsTest : DescribeSpec({
         }
 
         it("cancelIf") {
+            val events = BukkitEvents(plugin)
             val player = server.addPlayer()
             val block = BlockMock()
             events.cancelIf<BlockBreakEvent> {
@@ -50,6 +54,7 @@ class BukkitEventsTest : DescribeSpec({
         }
 
         it("cancelIfNot") {
+            val events = BukkitEvents(plugin)
             val player = server.addPlayer()
             val block = BlockMock()
             events.cancelIfNot<BlockBreakEvent> {

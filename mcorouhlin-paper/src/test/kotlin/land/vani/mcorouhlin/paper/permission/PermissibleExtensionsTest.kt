@@ -30,10 +30,14 @@ class PermissibleExtensionsTest : DescribeSpec({
     lateinit var plugin: TestMcorouhlinPlugin
     lateinit var permissible: Permissible
 
-    beforeTest {
+    beforeEach {
         server = MockPaper.mock()
         plugin = server.pluginManager.loadSimple()
         permissible = server.addPlayer()
+    }
+
+    afterEach {
+        MockPaper.unmock()
     }
 
     describe("hasPermission") {

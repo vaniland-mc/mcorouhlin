@@ -20,9 +20,13 @@ class PluginManagerExtensionsTest : DescribeSpec({
     lateinit var server: ServerMock
     lateinit var plugin: TestMcorouhlinPlugin
 
-    beforeTest {
+    beforeEach {
         server = MockPaper.mock()
         plugin = server.pluginManager.loadSimple()
+    }
+
+    afterEach {
+        MockPaper.unmock()
     }
 
     it("registerSuspendEvents") {
