@@ -56,9 +56,13 @@ class McorouhlinKotlinPluginTest : DescribeSpec({
     lateinit var server: ServerMock
     lateinit var plugin: McorouhlinPluginImpl
 
-    beforeTest {
+    beforeEach {
         server = MockPaper.mock()
         plugin = server.pluginManager.loadSimple<McorouhlinPluginImpl>()
+    }
+
+    afterEach {
+        MockPaper.unmock()
     }
 
     it("asyncDispatcher") {

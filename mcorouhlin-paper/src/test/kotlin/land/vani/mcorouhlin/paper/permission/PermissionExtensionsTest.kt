@@ -5,8 +5,17 @@ import io.kotest.matchers.maps.shouldBeEmpty
 import io.kotest.matchers.shouldBe
 import land.vani.mcorouhlin.permission.Permission
 import land.vani.mcorouhlin.permission.PermissionDefault
+import land.vani.mockpaper.MockPaper
 
 class PermissionExtensionsTest : DescribeSpec({
+    beforeEach {
+        MockPaper.mock()
+    }
+
+    afterEach {
+        MockPaper.unmock()
+    }
+
     it("asBukkit") {
         val permission = object : Permission {
             override val node: String = "mcorouhlin.test"
