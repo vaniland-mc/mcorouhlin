@@ -1,7 +1,6 @@
 {
   "extends": [
-    "config:base",
-    ":dependencyDashboard"
+    "config:base"
   ],
   "packageRules": [
     {
@@ -21,6 +20,12 @@
       "groupName": "kotest"
     },
     {
+      "matchPackagePrefixes": [
+        "org.jetbrains.kotlinx:kotlinx-coroutines-"
+      ],
+      "groupName": "kotlinx-coroutines"
+    },
+    {
       "matchUpdateTypes": [
         "minor",
         "patch"
@@ -30,6 +35,7 @@
   ],
   "commitMessagePrefix": "⬆️ ",
   "labels": [
-    "dependencies"
+    "dependencies",
+    "release/none"
   ]
 }
