@@ -36,6 +36,8 @@ import com.mojang.brigadier.arguments.StringArgumentType.word
 import com.mojang.brigadier.context.CommandContext
 import land.vani.mcorouhlin.command.RequiredArgument
 import land.vani.mcorouhlin.command.dsl.DslCommandBuilder
+import kotlin.reflect.KClass
+import kotlin.time.Duration
 
 fun <S, T, V> argument(
     name: String,
@@ -69,3 +71,20 @@ fun <S> DslCommandBuilder<S>.double(name: String, min: Double = -Double.MAX_VALU
 fun <S> DslCommandBuilder<S>.word(name: String) = argumentImplied<S, String>(name, word(), ::getString)
 fun <S> DslCommandBuilder<S>.string(name: String) = argumentImplied<S, String>(name, string(), ::getString)
 fun <S> DslCommandBuilder<S>.greedyString(name: String) = argumentImplied<S, String>(name, greedyString(), ::getString)
+
+inline fun <S, reified E : Enum<E>> DslCommandBuilder<S>.enum(
+    name: String,
+    noinline predicate: (E) -> Boolean = { true },
+): RequiredArgument<S, E, E> = enum(name, E::class, predicate)
+
+fun <S, E : Enum<E>> DslCommandBuilder<S>.enum(
+    name: String,
+    clazz: KClass<E>,
+    predicate: (E) -> Boolean = { true },
+): RequiredArgument<S, E, E> =
+    argumentImplied(name, EnumArgumentType(clazz, predicate)) { context, _ ->
+        context.getArgument(name, clazz.java)
+    }
+
+fun <S> DslCommandBuilder<S>.duration(name: String): RequiredArgument<S, Duration, Duration> =
+    argumentImplied(name, DurationArgumentType, impliedGetter())
