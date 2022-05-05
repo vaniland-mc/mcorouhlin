@@ -69,13 +69,3 @@ detekt {
     config = rootProject.files("config/detekt/detekt.yml")
     buildUponDefaultConfig = true
 }
-
-configurations.all {
-    resolutionStrategy {
-        eachDependency {
-            if (requested.group == "org.jetbrains.kotlin") {
-                useVersion("1.6.10")
-            }
-        }
-    }
-}
