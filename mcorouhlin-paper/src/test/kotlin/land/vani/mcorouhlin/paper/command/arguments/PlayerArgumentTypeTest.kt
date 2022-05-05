@@ -43,7 +43,7 @@ class PlayerArgumentTypeTest : DescribeSpec({
                     dispatcher.execute("testCommand test", null)
                 }
 
-                exception.message shouldBe "Player not found at position "
+                exception.message shouldBe "Player not found at position 16: ...mmand test<--[HERE]"
             }
 
             it("parse single player with valid player name") {
