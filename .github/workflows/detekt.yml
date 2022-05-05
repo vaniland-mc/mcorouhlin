@@ -43,7 +43,7 @@ jobs:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload results to GitHub repository
         if: always()
-        uses: github/codeql-action/upload-sarif@v1
+        uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: build/reports/detekt/merge.sarif
           checkout_path: ${{ github.workspace }}
