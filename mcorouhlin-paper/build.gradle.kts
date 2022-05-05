@@ -1,6 +1,7 @@
 plugins {
     id("land.vani.setup.kotlin")
     id("land.vani.maven.publish")
+    id("io.papermc.paperweight.userdev") version "1.3.5"
 }
 
 repositories {
@@ -15,7 +16,7 @@ repositories {
 dependencies {
     api(project(":mcorouhlin-api"))
     compileOnly("io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT")
-    compileOnly("io.papermc.paper:dev-bundle:1.18.1-R0.1-SNAPSHOT")
+    paperDevBundle("1.18.1-R0.1-SNAPSHOT")
 
     testCompileOnly("io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT")
     testImplementation("land.vani.mockpaper:MockPaper-1.18.1:2.0.0")
