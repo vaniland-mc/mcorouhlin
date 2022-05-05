@@ -16,6 +16,10 @@ class DslCommandTest : DescribeSpec({
             val testArg1 by string("testArg1")
             val testArg2 by integer("testArg2").optional()
 
+            required {
+                it == "source"
+            }
+
             runs {
                 result += testArg1
                 result += testArg2

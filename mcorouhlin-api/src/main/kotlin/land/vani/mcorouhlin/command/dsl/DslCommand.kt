@@ -55,6 +55,10 @@ class DslCommandBuilder<S>(private var dslNode: DslCommandTree<S, *>) {
         dslNode.runs(command)
     }
 
+    fun required(condition: (S) -> Boolean) {
+        dslNode.required(condition)
+    }
+
     fun literal(
         literal: String,
         apply: (LiteralArgumentBuilder<S>.() -> Unit)? = null,

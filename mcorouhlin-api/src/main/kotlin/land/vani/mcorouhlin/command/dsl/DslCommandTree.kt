@@ -40,6 +40,8 @@ sealed class DslCommandTree<S, A : ArgumentBuilder<S, A>>(
 
     private var apply: (A.() -> Unit)? = null
 
+    private var requirement: ((S) -> Boolean)? = null
+
     open fun executes(command: BrigadierCommand<S>) {
         check(this.command == null) { "Cannot reassign executes command" }
         this.command = command
@@ -59,6 +61,10 @@ sealed class DslCommandTree<S, A : ArgumentBuilder<S, A>>(
 
     fun apply(apply: (A.() -> Unit)?) {
         this.apply = apply
+    }
+
+    fun required(condition: (S) -> Boolean) {
+        requirement = condition
     }
 
     private fun <N : DslCommandTree<S, A>, A : ArgumentBuilder<S, T>, T> addChildAndApply(
@@ -105,6 +111,9 @@ sealed class DslCommandTree<S, A : ArgumentBuilder<S, A>>(
         val node = buildNode()
 
         apply?.invoke(node)
+        requirement?.let { requirement ->
+            node.requires(requirement)
+        }
 
         command?.let { command ->
             node.executes { context ->
