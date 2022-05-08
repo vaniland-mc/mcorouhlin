@@ -17,7 +17,10 @@ val targetJavaVersion = 17
 
 kotlin {
     jvmToolchain {
-        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(targetJavaVersion))
+        this as JavaToolchainSpec
+        languageVersion.set(JavaLanguageVersion.of(targetJavaVersion))
+        @Suppress("UnstableApiUsage")
+        vendor.set(JvmVendorSpec.GRAAL_VM)
     }
 }
 
