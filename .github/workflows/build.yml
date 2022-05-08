@@ -13,9 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/actions/detekt
+      - uses: vaniland-mc/actions/detekt@v1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          report-xml-path: build/reports/detekt/merge.xml
+          report-sarif-path: build/reports/detekt/merge.sarif
 
   build:
     runs-on: ubuntu-latest
