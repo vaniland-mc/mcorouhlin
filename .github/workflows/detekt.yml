@@ -1,11 +1,6 @@
 name: detekt
 on:
-  pull_request:
-    branches:
-      - main
-  push:
-    branches:
-      - main
+  workflow_call: { }
 
 jobs:
   detekt:
@@ -17,22 +12,12 @@ jobs:
         with:
           java-version: "17"
           distribution: "temurin"
-      - name: Cache
-        uses: actions/cache@v3
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', 'gradle/wrapper/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', 'gradle/wrapper/gradle-wrapper.properties') }}
-            ${{ runner.os }}-gradle-
+      - name: Cache gradle
+        uses: gradle/gradle-build-action@v2
       - name: Validate gradle wrapper
         uses: gradle/wrapper-validation-action@v1
       - name: Run detekt
         run: ./gradlew detekt
-      - name: Cleanup Gradle caches
-        run: |
-          rm -f ~/.gradle/caches/modules-2/modules-2.lock
-          rm -f ~/.gradle/caches/modules-2/gc.properties
       - name: Setup reviewdog
         if: always()
         uses: reviewdog/action-setup@v1
