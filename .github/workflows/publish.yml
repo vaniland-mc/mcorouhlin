@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true
     steps:
+      - uses: actions/checkout@v3
       - uses: ./.github/actions/build
       - name: Cache gradle
         uses: gradle/gradle-build-action@v2
