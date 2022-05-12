@@ -9,7 +9,7 @@ repositories {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
     implementation("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.20.0")
-    implementation("org.jetbrains.kotlinx:kover:0.5.0")
+    implementation("org.jetbrains.kotlinx:kover:0.5.1")
     implementation("org.jetbrains.dokka:dokka-gradle-plugin:1.6.21")
 }
 
