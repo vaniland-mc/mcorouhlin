@@ -12,3 +12,5 @@ include(
     "mcorouhlin-api",
     "mcorouhlin-paper",
 )
+
+includeBuild("internal-plugins")
