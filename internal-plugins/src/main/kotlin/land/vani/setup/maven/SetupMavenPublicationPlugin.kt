@@ -22,6 +22,7 @@ class SetupMavenPublicationPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         applyPlugins(project)
         setupTasks(project)
+        setupPublishing(project)
     }
 
     private fun applyPlugins(project: Project) {
