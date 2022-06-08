@@ -15,11 +15,11 @@ repositories {
 
 dependencies {
     api(project(":mcorouhlin-api"))
-    compileOnly("io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT")
-    paperDevBundle("1.18.1-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT")
+    paperDevBundle("1.18.2-R0.1-SNAPSHOT")
 
-    testCompileOnly("io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT")
-    testImplementation("land.vani.mockpaper:MockPaper-1.18.1:2.0.0")
+    testCompileOnly("io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT")
+    testImplementation("com.github.seeseemelk:MockBukkit-v1.18:2.22.2")
     testImplementation(kotlin("reflect"))
     testImplementation("com.google.jimfs:jimfs:1.2")
 }

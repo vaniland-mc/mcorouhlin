@@ -63,7 +63,6 @@ class MultipleArgumentParser<T>(
                 start = -1
                 if (reader.peek() == ',') {
                     reader.skip() // skip ","
-                    println("suggestArrayValue")
                     suggestions = this::suggestArrayValue
                     continue
                 }

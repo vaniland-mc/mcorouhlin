@@ -1,11 +1,13 @@
 package land.vani.mcorouhlin.paper.event
 
+import be.seeseemelk.mockbukkit.MockBukkit
+import be.seeseemelk.mockbukkit.ServerMock
+import be.seeseemelk.mockbukkit.block.BlockMock
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import land.vani.mcorouhlin.paper.TestMcorouhlinPlugin
-import land.vani.mockpaper.MockPaper
-import land.vani.mockpaper.ServerMock
-import land.vani.mockpaper.block.BlockMock
+import land.vani.mcorouhlin.paper.mockbukkit.assertEventFired
+import land.vani.mcorouhlin.paper.mockbukkit.loadSimple
 import net.kyori.adventure.text.Component
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.player.PlayerJoinEvent
@@ -15,12 +17,12 @@ class BukkitEventsTest : DescribeSpec({
     lateinit var plugin: TestMcorouhlinPlugin
 
     beforeEach {
-        server = MockPaper.mock()
+        server = MockBukkit.mock()
         plugin = server.pluginManager.loadSimple()
     }
 
     afterEach {
-        MockPaper.unmock()
+        MockBukkit.unmock()
     }
 
     describe("events") {

@@ -9,4 +9,6 @@ class TestMcorouhlinPlugin(
     description: PluginDescriptionFile,
     dataFolder: File,
     file: File,
+    @Suppress("UNUSED_PARAMETER")
+    parameters: Array<Any>,
 ) : McorouhlinKotlinPlugin(loader, description, dataFolder, file)

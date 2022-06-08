@@ -1,19 +1,19 @@
 package land.vani.mcorouhlin.paper.permission
 
+import be.seeseemelk.mockbukkit.MockBukkit
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.maps.shouldBeEmpty
 import io.kotest.matchers.shouldBe
 import land.vani.mcorouhlin.permission.Permission
 import land.vani.mcorouhlin.permission.PermissionDefault
-import land.vani.mockpaper.MockPaper
 
 class PermissionExtensionsTest : DescribeSpec({
     beforeEach {
-        MockPaper.mock()
+        MockBukkit.mock()
     }
 
     afterEach {
-        MockPaper.unmock()
+        MockBukkit.unmock()
     }
 
     it("asBukkit") {
