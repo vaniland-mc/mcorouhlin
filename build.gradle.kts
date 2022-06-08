@@ -1,8 +1,7 @@
-import io.gitlab.arturbosch.detekt.report.ReportMergeTask
-
 plugins {
-    id("io.gitlab.arturbosch.detekt")
-    id("org.jetbrains.kotlinx.kover")
+    id("land.vani.setup.kotlin") apply false
+    id("land.vani.setup.maven") apply false
+    id("org.jetbrains.kotlinx.kover") version "0.5.1"
 }
 
 group = "land.vani"
@@ -16,14 +15,6 @@ allprojects {
             url = uri("https://libraries.minecraft.net")
         }
     }
-}
-
-tasks.create<ReportMergeTask>("sarifReportMerge") {
-    output.set(rootProject.layout.buildDirectory.file("reports/detekt/merge.sarif"))
-}
-
-tasks.create<ReportMergeTask>("xmlReportMerge") {
-    output.set(rootProject.layout.buildDirectory.file("reports/detekt/merge.xml"))
 }
 
 tasks.koverMergedXmlReport {

@@ -1,6 +1,6 @@
 plugins {
     id("land.vani.setup.kotlin")
-    id("land.vani.maven.publish")
+    id("land.vani.setup.maven")
 }
 
 dependencies {
