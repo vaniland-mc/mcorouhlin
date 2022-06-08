@@ -1,5 +1,7 @@
 package land.vani.mcorouhlin.paper.command.arguments
 
+import be.seeseemelk.mockbukkit.MockBukkit
+import be.seeseemelk.mockbukkit.ServerMock
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.exceptions.CommandSyntaxException
 import io.kotest.assertions.throwables.shouldThrow
@@ -9,18 +11,16 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import land.vani.mcorouhlin.command.dsl.command
 import land.vani.mcorouhlin.command.register
-import land.vani.mockpaper.MockPaper
-import land.vani.mockpaper.ServerMock
 import org.bukkit.World
 
 class WorldArgumentTypeTest : DescribeSpec({
     lateinit var server: ServerMock
     beforeEach {
-        server = MockPaper.mock()
+        server = MockBukkit.mock()
     }
 
     afterEach {
-        MockPaper.unmock()
+        MockBukkit.unmock()
     }
 
     context("single world") {

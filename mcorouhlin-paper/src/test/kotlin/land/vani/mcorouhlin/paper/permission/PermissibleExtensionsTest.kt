@@ -1,12 +1,13 @@
 package land.vani.mcorouhlin.paper.permission
 
+import be.seeseemelk.mockbukkit.MockBukkit
+import be.seeseemelk.mockbukkit.ServerMock
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import land.vani.mcorouhlin.paper.TestMcorouhlinPlugin
+import land.vani.mcorouhlin.paper.mockbukkit.loadSimple
 import land.vani.mcorouhlin.permission.Permission
 import land.vani.mcorouhlin.permission.PermissionDefault
-import land.vani.mockpaper.MockPaper
-import land.vani.mockpaper.ServerMock
 import net.kyori.adventure.util.TriState
 import org.bukkit.permissions.Permissible
 
@@ -31,13 +32,13 @@ class PermissibleExtensionsTest : DescribeSpec({
     lateinit var permissible: Permissible
 
     beforeEach {
-        server = MockPaper.mock()
+        server = MockBukkit.mock()
         plugin = server.pluginManager.loadSimple()
         permissible = server.addPlayer()
     }
 
     afterEach {
-        MockPaper.unmock()
+        MockBukkit.unmock()
     }
 
     describe("hasPermission") {
@@ -97,13 +98,15 @@ class PermissibleExtensionsTest : DescribeSpec({
             permissible.permissionValue(TestPermissions.TEST) shouldBe TriState.TRUE
         }
 
-        it("FALSE when permission is set to false") {
+        // FYI: https://github.com/MockBukkit/MockBukkit/issues/444
+        xit("FALSE when permission is set to false") {
             permissible.addAttachment(
                 plugin,
                 TestPermissions.TEST.node,
                 false,
             )
 
+            permissible.isPermissionSet(TestPermissions.TEST) shouldBe true
             permissible.permissionValue(TestPermissions.TEST) shouldBe TriState.FALSE
         }
     }

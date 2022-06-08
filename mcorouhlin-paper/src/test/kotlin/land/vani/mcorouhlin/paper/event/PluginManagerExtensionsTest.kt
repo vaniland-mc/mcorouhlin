@@ -1,13 +1,14 @@
 package land.vani.mcorouhlin.paper.event
 
+import be.seeseemelk.mockbukkit.MockBukkit
+import be.seeseemelk.mockbukkit.ServerMock
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.test.runTest
 import land.vani.mcorouhlin.paper.TestMcorouhlinPlugin
-import land.vani.mockpaper.MockPaper
-import land.vani.mockpaper.ServerMock
+import land.vani.mcorouhlin.paper.mockbukkit.loadSimple
 import net.kyori.adventure.text.Component
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -21,12 +22,12 @@ class PluginManagerExtensionsTest : DescribeSpec({
     lateinit var plugin: TestMcorouhlinPlugin
 
     beforeEach {
-        server = MockPaper.mock()
+        server = MockBukkit.mock()
         plugin = server.pluginManager.loadSimple()
     }
 
     afterEach {
-        MockPaper.unmock()
+        MockBukkit.unmock()
     }
 
     it("registerSuspendEvents") {

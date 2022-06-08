@@ -1,5 +1,8 @@
 package land.vani.mcorouhlin.paper
 
+import be.seeseemelk.mockbukkit.MockBukkit
+import be.seeseemelk.mockbukkit.ServerMock
+import be.seeseemelk.mockbukkit.block.BlockMock
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
@@ -9,13 +12,12 @@ import kotlinx.coroutines.withContext
 import land.vani.mcorouhlin.paper.event.cancelIf
 import land.vani.mcorouhlin.paper.event.cancelIfNot
 import land.vani.mcorouhlin.paper.event.on
+import land.vani.mcorouhlin.paper.mockbukkit.assertEventFired
+import land.vani.mcorouhlin.paper.mockbukkit.loadSimple
 import land.vani.mcorouhlin.paper.permission.asBukkit
 import land.vani.mcorouhlin.permission.Permission
 import land.vani.mcorouhlin.permission.PermissionDefault
 import land.vani.mcorouhlin.permission.registerPermissions
-import land.vani.mockpaper.MockPaper
-import land.vani.mockpaper.ServerMock
-import land.vani.mockpaper.block.BlockMock
 import net.kyori.adventure.text.Component
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.player.PlayerJoinEvent
@@ -28,6 +30,8 @@ private class McorouhlinPluginImpl(
     description: PluginDescriptionFile,
     dataFolder: File,
     file: File,
+    @Suppress("UNUSED_PARAMETER")
+    parameters: Array<Any>,
 ) : McorouhlinKotlinPlugin(loader, description, dataFolder, file) {
     var onEnableAsyncExecuted = false
     var onDisableAsyncExecuted = false
@@ -57,12 +61,12 @@ class McorouhlinKotlinPluginTest : DescribeSpec({
     lateinit var plugin: McorouhlinPluginImpl
 
     beforeEach {
-        server = MockPaper.mock()
-        plugin = server.pluginManager.loadSimple<McorouhlinPluginImpl>()
+        server = MockBukkit.mock()
+        plugin = server.pluginManager.loadSimple()
     }
 
     afterEach {
-        MockPaper.unmock()
+        MockBukkit.unmock()
     }
 
     it("asyncDispatcher") {
