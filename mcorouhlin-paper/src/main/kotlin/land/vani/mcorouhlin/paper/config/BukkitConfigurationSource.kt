@@ -6,6 +6,7 @@ import land.vani.mcorouhlin.config.ConfigurationSource
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.configuration.serialization.ConfigurationSerializable
 import java.nio.file.Path
+import kotlin.io.path.exists
 import kotlin.io.path.reader
 import kotlin.io.path.writeText
 import kotlin.reflect.KClass
@@ -14,7 +15,13 @@ import kotlin.reflect.full.isSubclassOf
 class BukkitConfigurationSource(
     private val path: Path,
 ) : ConfigurationSource {
-    private val config: YamlConfiguration = YamlConfiguration.loadConfiguration(path.reader())
+    private val config: YamlConfiguration = YamlConfiguration()
+
+    init {
+        if (path.exists()) {
+            config.load(path.reader())
+        }
+    }
 
     override suspend fun load() {
         withContext(Dispatchers.IO) {
