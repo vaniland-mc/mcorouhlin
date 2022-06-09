@@ -20,6 +20,20 @@ private class TestConfig(path: Path) : BukkitConfiguration<TestConfig>(path) {
     var strictInt: Int by value<Int>("strictInt").strict()
 }
 
+private class TestMapConfig(path: Path) : BukkitConfiguration<TestMapConfig>(path) {
+    var map by value<Map<String, Any?>>("map")
+        .transform(
+            { raw: Map<String, Any?>? ->
+                @Suppress("UNCHECKED_CAST")
+                raw as Map<String, Boolean>
+            },
+            { complex ->
+                @Suppress("UNCHECKED_CAST")
+                complex as Map<String, Any>
+            }
+        )
+}
+
 class BukkitConfigurationTest : DescribeSpec({
     lateinit var fs: FileSystem
 
@@ -79,5 +93,24 @@ class BukkitConfigurationTest : DescribeSpec({
             strictInt: 30
             
         """.trimIndent()
+    }
+
+    it("map") {
+        val path = fs.getPath("test.yml")
+
+        path.writeText(
+            """
+                map:
+                    foo: true
+                    bar: false
+            """.trimIndent()
+        )
+        val config = TestMapConfig(path)
+        config.reload()
+
+        config.map shouldBe mapOf(
+            "foo" to true,
+            "bar" to false,
+        )
     }
 })
