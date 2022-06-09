@@ -46,6 +46,7 @@ class BukkitConfigurationSource(
             clazz.isSubclassOf(ConfigurationSerializable::class) ->
                 config.getSerializable(node, clazz.java as Class<out ConfigurationSerializable>)
             clazz.isSubclassOf(List::class) -> config.getList(node)
+            clazz.isSubclassOf(Map::class) -> config.getConfigurationSection(node)?.getValues(true)
             else -> config.get(node)
         }
 
