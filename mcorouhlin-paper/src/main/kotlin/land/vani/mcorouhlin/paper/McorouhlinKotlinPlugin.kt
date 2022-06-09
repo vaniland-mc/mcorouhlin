@@ -9,6 +9,7 @@ import land.vani.mcorouhlin.paper.dispatcher.BukkitMinecraftAsyncDispatcher
 import land.vani.mcorouhlin.paper.dispatcher.BukkitMinecraftMainThreadDispatcher
 import land.vani.mcorouhlin.paper.event.BukkitEvents
 import land.vani.mcorouhlin.paper.permission.asBukkit
+import land.vani.mcorouhlin.paper.util.withSchedulerHeartBeat
 import land.vani.mcorouhlin.permission.Permission
 import org.bukkit.event.Event
 import org.bukkit.plugin.PluginDescriptionFile
@@ -55,20 +56,26 @@ abstract class McorouhlinKotlinPlugin : JavaPlugin, McorouhlinPlugin {
     }
 
     override fun onEnable() {
-        runBlocking {
-            onEnableAsync()
+        withSchedulerHeartBeat(this) {
+            runBlocking {
+                onEnableAsync()
+            }
         }
     }
 
     override fun onDisable() {
-        runBlocking {
-            onDisableAsync()
+        withSchedulerHeartBeat(this) {
+            runBlocking {
+                onDisableAsync()
+            }
         }
     }
 
     override fun onLoad() {
-        runBlocking {
-            onLoadAsync()
+        withSchedulerHeartBeat(this) {
+            runBlocking {
+                onLoadAsync()
+            }
         }
     }
 
