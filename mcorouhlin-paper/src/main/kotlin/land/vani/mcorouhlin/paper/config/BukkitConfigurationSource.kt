@@ -6,7 +6,9 @@ import land.vani.mcorouhlin.config.ConfigurationSource
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.configuration.serialization.ConfigurationSerializable
 import java.nio.file.Path
+import kotlin.io.path.createDirectories
 import kotlin.io.path.exists
+import kotlin.io.path.notExists
 import kotlin.io.path.reader
 import kotlin.io.path.writeText
 import kotlin.reflect.KClass
@@ -31,6 +33,9 @@ class BukkitConfigurationSource(
 
     override suspend fun save() {
         withContext(Dispatchers.IO) {
+            if (path.parent.notExists()) {
+                path.parent.createDirectories()
+            }
             path.writeText(config.saveToString())
         }
     }
