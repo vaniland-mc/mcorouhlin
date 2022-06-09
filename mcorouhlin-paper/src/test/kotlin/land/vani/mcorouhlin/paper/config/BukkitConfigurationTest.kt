@@ -64,12 +64,8 @@ class BukkitConfigurationTest : DescribeSpec({
     }
 
     it("save") {
-        val path = fs.getPath("test.yml")
-        path.writeText(
-            """
-              strictInt: 5
-            """.trimIndent()
-        )
+        val path = fs.getPath("foo/test.yml")
+
         val config = TestConfig(path)
 
         config.nullableInt = 10
@@ -78,9 +74,9 @@ class BukkitConfigurationTest : DescribeSpec({
         config.save()
 
         path.readText() shouldBe """
-            strictInt: 30
             nullableInt: 10
             defaultInt: 20
+            strictInt: 30
             
         """.trimIndent()
     }
