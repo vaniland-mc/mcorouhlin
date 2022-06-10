@@ -4,8 +4,7 @@
   ],
   "gradle": {
     "fileMatch": [
-      "(^|/)buildSrc/.*",
-      "/internal-plugins/src/main/kotlin/land/vani/setup/kotlin/SetupKotlinPlugin.kt"
+      "(^|/)buildSrc/.*"
     ]
   },
   "packageRules": [
@@ -37,6 +36,17 @@
         "patch"
       ],
       "automerge": true
+    }
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": [
+        "^internal-plugins/src/main/kotlin/.*/*.kt$"
+      ],
+      "matchStrings": [
+        "[detektPlugins|implementation|testImplementation]\"\\(\\\"(?<currentValue>.*)\\\"\\)"
+      ],
+      "datasourceTemplate": "gradle"
     }
   ],
   "commitMessagePrefix": "⬆️ ",
