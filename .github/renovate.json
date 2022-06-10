@@ -44,7 +44,7 @@
         "^internal-plugins/src/main/kotlin/.*/*.kt$"
       ],
       "matchStrings": [
-        "[detektPlugins|implementation|testImplementation]\"\\(\\\"(?<currentValue>.*)\\\"\\)"
+        "\"(detektPlugins|implementation|testImplementation)\"\\(\"(?<depName>.*):(?<currentValue>.*)\"\\)"
       ],
       "datasourceTemplate": "gradle"
     }
