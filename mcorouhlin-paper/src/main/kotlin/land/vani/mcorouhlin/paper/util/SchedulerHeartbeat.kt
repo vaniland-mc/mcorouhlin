@@ -38,7 +38,6 @@ internal fun McorouhlinKotlinPlugin.ensureWakeup() {
                 }
             val currentTick = currentTickField[server.scheduler]
             mainThreadHeartbeatMethod.invoke(server.scheduler, currentTick)
-            logger.info("heartbeat")
         }
     }
 }
