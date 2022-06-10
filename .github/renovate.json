@@ -2,11 +2,6 @@
   "extends": [
     "config:base"
   ],
-  "gradle": {
-    "fileMatch": [
-      "(^|/)buildSrc/.*"
-    ]
-  },
   "packageRules": [
     {
       "matchDatasources": [
@@ -14,7 +9,7 @@
       ],
       "registryUrls": [
         "https://repo.maven.apache.org/maven2/",
-        "https://papermc.io/repo/repository/maven-public/",
+        "https://repo.papermc.io/repository/maven-public/",
         "https://plugins.gradle.org/m2/"
       ]
     },
