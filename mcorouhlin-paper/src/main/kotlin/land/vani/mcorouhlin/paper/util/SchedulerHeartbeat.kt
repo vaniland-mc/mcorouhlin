@@ -4,8 +4,18 @@ import land.vani.mcorouhlin.paper.McorouhlinKotlinPlugin
 import java.util.concurrent.Executors
 import java.util.concurrent.locks.LockSupport
 
-internal fun withSchedulerHeartBeat(plugin: McorouhlinKotlinPlugin, block: () -> Unit) {
-    val primaryThread = if (plugin.server.isPrimaryThread) {
+internal fun McorouhlinKotlinPlugin.withSchedulerHeartBeat(block: () -> Unit) {
+    manipulatedServerHeartbeatEnabled = true
+    block()
+    manipulatedServerHeartbeatEnabled = false
+}
+
+internal fun McorouhlinKotlinPlugin.ensureWakeup() {
+    if (!manipulatedServerHeartbeatEnabled) {
+        return
+    }
+
+    val primaryThread = if (server.isPrimaryThread) {
         Thread.currentThread()
     } else {
         return
@@ -13,25 +23,22 @@ internal fun withSchedulerHeartBeat(plugin: McorouhlinKotlinPlugin, block: () ->
 
     val thread = Executors.newSingleThreadExecutor()
 
-    if (plugin.server.scheduler::class.java.simpleName == "CraftScheduler") {
+    if (server.scheduler::class.java.simpleName == "CraftScheduler") {
         thread.submit {
             LockSupport.getBlocker(primaryThread) ?: return@submit
 
-            val currentTickField = plugin.server.scheduler::class.java.getField("currentTick")
+            val currentTickField = server.scheduler::class.java.getField("currentTick")
                 .apply {
                     isAccessible = true
                 }
-            val mainThreadHeartbeatMethod = plugin.server.scheduler::class.java
+            val mainThreadHeartbeatMethod = server.scheduler::class.java
                 .getMethod("mainThreadHeartbeat", Int::class.java)
                 .apply {
                     isAccessible = true
                 }
-            val currentTick = currentTickField[plugin.server.scheduler]
-            mainThreadHeartbeatMethod.invoke(plugin.server.scheduler, currentTick)
+            val currentTick = currentTickField[server.scheduler]
+            mainThreadHeartbeatMethod.invoke(server.scheduler, currentTick)
+            logger.info("heartbeat")
         }
     }
-
-    block()
-
-    thread.shutdown()
 }

@@ -13,6 +13,8 @@ import org.gradle.kotlin.dsl.getByName
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.invoke
 import org.gradle.kotlin.dsl.register
+import org.gradle.kotlin.dsl.withType
+import org.gradle.plugins.signing.Sign
 import org.gradle.plugins.signing.SigningExtension
 import org.jetbrains.dokka.gradle.DokkaTask
 
@@ -107,6 +109,10 @@ class SetupMavenPublicationPlugin : Plugin<Project> {
                 System.getenv("SIGNING_PASSWORD"),
             )
             sign(publishing.publications["maven"])
+        }
+
+        project.tasks.withType<Sign> {
+            onlyIf { System.getenv("SIGNING_KEY_ID") != null }
         }
     }
 }
