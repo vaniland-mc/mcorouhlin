@@ -2,6 +2,7 @@ plugins {
     id("land.vani.setup.kotlin") apply false
     id("land.vani.setup.maven") apply false
     id("org.jetbrains.kotlinx.kover") version "0.5.1"
+    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 }
 
 group = "land.vani"
@@ -20,4 +21,16 @@ allprojects {
 tasks.koverMergedXmlReport {
     isEnabled = true
     xmlReportFile.set(layout.buildDirectory.file("reports/kover/merged.xml"))
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+
+            username.set(System.getenv("OSSRH_USERNAME"))
+            password.set(System.getenv("OSSRH_PASSWORD"))
+        }
+    }
 }

@@ -15,7 +15,6 @@ import org.gradle.kotlin.dsl.invoke
 import org.gradle.kotlin.dsl.register
 import org.gradle.plugins.signing.SigningExtension
 import org.jetbrains.dokka.gradle.DokkaTask
-import java.net.URI
 
 @Suppress("unused")
 class SetupMavenPublicationPlugin : Plugin<Project> {
@@ -95,17 +94,6 @@ class SetupMavenPublicationPlugin : Plugin<Project> {
                             connection.set("scm:git:git://github.com/vaniland-mc/mcorouhlin.git")
                             developerConnection.set("scm:git:ssh://github.com:vaniland-mc/mcorouhlin.git")
                             url.set("https://github.com/vaniland-mc/mcorouhlin")
-                        }
-                    }
-
-                    repositories {
-                        maven {
-                            url = URI("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2")
-                            name = "OSSRH"
-                            credentials {
-                                username = System.getenv("OSSRH_USERNAME")
-                                password = System.getenv("OSSRH_PASSWORD")
-                            }
                         }
                     }
                 }

@@ -38,7 +38,7 @@ jobs:
         if: ${{ steps.bump-semver.outputs.new_version != null }}
         run: |
           SEMANTIC_NEW_VERSION=$(echo ${{ steps.bump-semver.outputs.new_version }} | sed -e 's/^v//')
-          ./gradlew -Pmcorouhlin.version=$SEMANTIC_NEW_VERSION publishMavenPublicationToOSSRHRepository
+          ./gradlew -Pmcorouhlin.version=$SEMANTIC_NEW_VERSION publishToSonatype closeAndReleaseSonatypeStagingRepository
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
