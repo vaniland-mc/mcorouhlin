@@ -4,7 +4,8 @@
   ],
   "gradle": {
     "fileMatch": [
-      "(^|/)buildSrc/.*"
+      "(^|/)buildSrc/.*",
+      "/internal-plugins/src/main/kotlin/land/vani/setup/kotlin/SetupKotlinPlugin.kt"
     ]
   },
   "packageRules": [
@@ -41,7 +42,7 @@
   "commitMessagePrefix": "⬆️ ",
   "labels": [
     "dependencies",
-    "release/none"
+    "release/patch"
   ],
   "prHourlyLimit": 0,
   "prConcurrentLimit": 0
