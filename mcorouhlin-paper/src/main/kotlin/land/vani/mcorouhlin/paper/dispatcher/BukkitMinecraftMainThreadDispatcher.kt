@@ -10,7 +10,7 @@ internal class BukkitMinecraftMainThreadDispatcher(
 ) : MinecraftMainThreadDispatcher() {
     override fun isDispatchNeeded(context: CoroutineContext): Boolean {
         plugin.ensureWakeup()
-        return plugin.server.isPrimaryThread
+        return !plugin.server.isPrimaryThread
     }
 
     override fun dispatch(context: CoroutineContext, block: Runnable) {
