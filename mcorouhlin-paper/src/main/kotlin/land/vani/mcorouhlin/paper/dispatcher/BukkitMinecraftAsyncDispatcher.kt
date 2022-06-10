@@ -1,12 +1,18 @@
 package land.vani.mcorouhlin.paper.dispatcher
 
 import land.vani.mcorouhlin.dispatcher.MinecraftAsyncDispatcher
-import org.bukkit.plugin.Plugin
+import land.vani.mcorouhlin.paper.McorouhlinKotlinPlugin
+import land.vani.mcorouhlin.paper.util.ensureWakeup
 import kotlin.coroutines.CoroutineContext
 
 internal class BukkitMinecraftAsyncDispatcher(
-    private val plugin: Plugin,
+    private val plugin: McorouhlinKotlinPlugin,
 ) : MinecraftAsyncDispatcher() {
+    override fun isDispatchNeeded(context: CoroutineContext): Boolean {
+        plugin.ensureWakeup()
+        return plugin.server.isPrimaryThread
+    }
+
     override fun dispatch(context: CoroutineContext, block: Runnable) {
         if (!plugin.isEnabled) {
             return
