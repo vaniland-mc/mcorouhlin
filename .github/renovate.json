@@ -41,7 +41,7 @@
       "matchStrings": [
         "\"(detektPlugins|implementation|testImplementation)\"\\(\"(?<depName>.*):(?<currentValue>.*)\"\\)"
       ],
-      "datasourceTemplate": "gradle"
+      "datasourceTemplate": "maven"
     }
   ],
   "commitMessagePrefix": "⬆️ ",
