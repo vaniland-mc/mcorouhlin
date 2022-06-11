@@ -19,7 +19,7 @@ dependencies {
     paperDevBundle("1.18.2-R0.1-SNAPSHOT")
 
     testCompileOnly("io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT")
-    testImplementation("com.github.seeseemelk:MockBukkit-v1.18:2.22.5")
+    testImplementation("com.github.seeseemelk:MockBukkit-v1.18:2.24.0")
     testImplementation(kotlin("reflect"))
     testImplementation("com.google.jimfs:jimfs:1.2")
 }
