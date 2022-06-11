@@ -14,8 +14,8 @@ abstract class Configuration<C : Configuration<C>>(
         source.save()
     }
 
-    fun <T : Any> value(node: String, clazz: KClass<T>): ConfigurationDelegate<C, T?, T> =
-        ConfigurationDelegate(source, node, clazz, { it }, { it })
+    fun <T : Any> value(node: String, clazz: KClass<T>): ConfigurationDelegate<C, T?> =
+        ConfigurationDelegate(source, node, clazz)
 
     inline fun <reified T : Any> value(node: String) = value(node, T::class)
 }
