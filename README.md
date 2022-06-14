@@ -1,7 +1,7 @@
 # mcorouhlin
 
 [![Maven Central](https://img.shields.io/maven-central/v/land.vani.mcorouhlin/mcorouhlin-api)](https://search.maven.org/search?q=g:land.vani.mcorouhlin)
-[![detekt](https://github.com/vaniland-mc/mcorouhlin/actions/workflows/detekt.yml/badge.svg)](https://github.com/vaniland-mc/mcorouhlin/actions/workflows/detekt.yml)
+[![Build](https://github.com/vaniland-mc/mcorouhlin/actions/workflows/build.yml/badge.svg)](https://github.com/vaniland-mc/mcorouhlin/actions/workflows/build.yml)
 [![codecov](https://codecov.io/gh/vaniland-mc/mcorouhlin/branch/main/graph/badge.svg?token=Qh9dZllma8)](https://codecov.io/gh/vaniland-mc/mcorouhlin)
 
 A Kotlin utility library for minecraft plugins.
@@ -53,3 +53,13 @@ val inventory = plugin.inventory(Component.text("some inventory")) {
     }
 }
 ```
+
+### License
+
+This project is licensed under GPL-3.0.
+See also [LICENCE](LICENSE).
+
+This project is including the following OpenSource project codes:
+
+- [Shynixn/MCCoroutine](https://github.com/Shynixn/MCCoroutine) (MIT License)
+- [nicolaic/brigadier-dsl](https://github.com/nicolaic/brigadier-dsl) (Apache-2.0 License)
