@@ -9,7 +9,6 @@ import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.testing.Test
 import org.gradle.jvm.toolchain.JavaLanguageVersion
-import org.gradle.jvm.toolchain.JavaToolchainSpec
 import org.gradle.jvm.toolchain.JvmVendorSpec
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
@@ -56,7 +55,6 @@ class SetupKotlinPlugin : Plugin<Project> {
     private fun applyJvmVersions(project: Project) {
         project.extensions.configure<KotlinJvmProjectExtension> {
             jvmToolchain {
-                this as JavaToolchainSpec
                 languageVersion.set(JavaLanguageVersion.of(JVM_VERSION))
                 vendor.set(JvmVendorSpec.GRAAL_VM)
             }
