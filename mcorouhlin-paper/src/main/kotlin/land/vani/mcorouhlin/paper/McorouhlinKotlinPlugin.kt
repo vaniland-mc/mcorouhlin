@@ -1,5 +1,6 @@
 package land.vani.mcorouhlin.paper
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.runBlocking
 import land.vani.mcorouhlin.dispatcher.MinecraftAsyncDispatcher
@@ -31,9 +32,7 @@ abstract class McorouhlinKotlinPlugin : JavaPlugin, McorouhlinPlugin {
         file: File,
     ) : super(loader, description, dataFolder, file)
 
-    override val coroutineContext: CoroutineContext by lazy {
-        SupervisorJob() + mainThreadDispatcher
-    }
+    override val coroutineContext: CoroutineContext = SupervisorJob() + Dispatchers.Unconfined
 
     internal var manipulatedServerHeartbeatEnabled: Boolean = false
 
@@ -59,20 +58,20 @@ abstract class McorouhlinKotlinPlugin : JavaPlugin, McorouhlinPlugin {
 
     override fun onEnable() {
         withSchedulerHeartBeat {
-            runBlocking {
+            runBlocking(Dispatchers.Unconfined) {
                 onEnableAsync()
             }
         }
     }
 
     override fun onDisable() {
-        runBlocking {
+        runBlocking(Dispatchers.Unconfined) {
             onDisableAsync()
         }
     }
 
     override fun onLoad() {
-        runBlocking {
+        runBlocking(Dispatchers.Unconfined) {
             onLoadAsync()
         }
     }
