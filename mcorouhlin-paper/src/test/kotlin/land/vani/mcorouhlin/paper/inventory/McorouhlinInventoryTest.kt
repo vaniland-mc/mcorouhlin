@@ -30,7 +30,7 @@ class McorouhlinInventoryTest : DescribeSpec({
             default(itemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE))
         }
 
-        inventory.bukkitInventory.contents?.forAll {
+        inventory.bukkitInventory.contents.forAll {
             it.shouldNotBeNull()
             it.type shouldBe Material.LIGHT_GRAY_STAINED_GLASS_PANE
             it.amount = 1
@@ -84,7 +84,7 @@ class McorouhlinInventoryTest : DescribeSpec({
         val inventory = plugin.inventory(Component.text("some inventory")) {
             slots(0..10, itemStack(Material.DIRT))
         }
-        inventory.bukkitInventory.contents?.copyOfRange(0, 10)?.forAll {
+        inventory.bukkitInventory.contents.copyOfRange(0, 10).forAll {
             it shouldBe itemStack(Material.DIRT)
         }
     }

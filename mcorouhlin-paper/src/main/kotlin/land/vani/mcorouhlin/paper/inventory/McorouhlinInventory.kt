@@ -33,8 +33,8 @@ class McorouhlinInventory internal constructor(
      * Set default items on this inventory slots.
      */
     fun default(item: (slot: Int) -> ItemStack) {
-        for (i in bukkitInventory.contents.orEmpty().indices) {
-            bukkitInventory.contents?.set(i, item(i))
+        for (i in bukkitInventory.contents.indices) {
+            bukkitInventory.contents[i] = item(i)
         }
     }
 

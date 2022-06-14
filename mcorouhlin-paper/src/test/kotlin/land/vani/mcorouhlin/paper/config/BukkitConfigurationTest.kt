@@ -16,20 +16,24 @@ import kotlin.io.path.writeText
 
 private class TestConfig(path: Path) : BukkitConfiguration<TestConfig>(path) {
     var nullableInt: Int? by value("nullableInt")
+
     var defaultInt: Int by value<Int>("defaultInt").default(10)
     var strictInt: Int by value<Int>("strictInt").strict()
 }
 
+private data class Data(val inner: String)
+
 private class TestMapConfig(path: Path) : BukkitConfiguration<TestMapConfig>(path) {
     var map by value<Map<String, Any?>>("map")
-        .transform(
-            { raw: Map<String, Any?>? ->
-                @Suppress("UNCHECKED_CAST")
-                raw as Map<String, Boolean>
+        .transform<Map<String, Data>>(
+            { raw ->
+                raw.orEmpty()
+                    .map { (key, value) -> key to Data("$value") }
+                    .toMap()
             },
             { complex ->
-                @Suppress("UNCHECKED_CAST")
-                complex as Map<String, Any>
+                complex.map { (key, value) -> key to value.inner }
+                    .toMap()
             }
         )
 }
@@ -109,8 +113,8 @@ class BukkitConfigurationTest : DescribeSpec({
         config.reload()
 
         config.map shouldBe mapOf(
-            "foo" to true,
-            "bar" to false,
+            "foo" to Data("true"),
+            "bar" to Data("false"),
         )
     }
 })
