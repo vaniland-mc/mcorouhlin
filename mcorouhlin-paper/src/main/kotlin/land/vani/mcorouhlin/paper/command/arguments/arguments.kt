@@ -11,6 +11,7 @@ import land.vani.mcorouhlin.command.dsl.DslCommandBuilder
 import land.vani.mcorouhlin.paper.player.hasAllPermissions
 import net.minecraft.commands.arguments.UuidArgument
 import org.bukkit.Material
+import org.bukkit.OfflinePlayer
 import org.bukkit.World
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
@@ -52,6 +53,26 @@ fun <S> DslCommandBuilder<S>.players(
     predicate: (Player) -> Boolean = { true },
 ): RequiredArgument<S, PlayerInput, Collection<Player>> =
     argument(name, PlayerArgumentType(predicate, true), PlayerArgumentType.Companion::getMultiplePlayers)
+
+fun <S> DslCommandBuilder<S>.offlinePlayer(
+    name: String,
+    predicate: (OfflinePlayer) -> Boolean = { true },
+): RequiredArgument<S, OfflinePlayerInput, OfflinePlayer> =
+    argument(
+        name,
+        OfflinePlayerArgumentType(predicate, false),
+        PlayerArgumentType.Companion::getSinglePlayer
+    )
+
+fun <S> DslCommandBuilder<S>.offlinePlayers(
+    name: String,
+    predicate: (OfflinePlayer) -> Boolean = { true },
+): RequiredArgument<S, OfflinePlayerInput, Collection<OfflinePlayer>> =
+    argument(
+        name,
+        OfflinePlayerArgumentType(predicate, true),
+        PlayerArgumentType.Companion::getMultiplePlayers,
+    )
 
 fun <S> DslCommandBuilder<S>.world(
     name: String,

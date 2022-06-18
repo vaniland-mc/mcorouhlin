@@ -1,7 +1,9 @@
 package land.vani.mcorouhlin.paper.player
 
 import org.bukkit.Bukkit
+import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
+import org.bukkit.permissions.Permissible
 import java.util.UUID
 
 private val UUID_REGEX =
@@ -13,5 +15,11 @@ fun String.getPlayerByUuidOrName(): Player? = if (UUID_REGEX in this) {
     Bukkit.getPlayerExact(this)
 }
 
-fun Player.hasAllPermissions(permissions: Iterable<String>): Boolean =
+fun String.getOfflinePlayerByUuidOrName(): OfflinePlayer? = if (UUID_REGEX in this) {
+    Bukkit.getOfflinePlayer(UUID.fromString(this))
+} else {
+    Bukkit.getOfflinePlayer(this)
+}
+
+fun Permissible.hasAllPermissions(permissions: Iterable<String>): Boolean =
     permissions.all { hasPermission(it) }
