@@ -23,3 +23,9 @@ dependencies {
     testImplementation(kotlin("reflect"))
     testImplementation("com.google.jimfs:jimfs:1.2")
 }
+
+tasks {
+    assemble {
+        dependsOn("reobfJar")
+    }
+}
