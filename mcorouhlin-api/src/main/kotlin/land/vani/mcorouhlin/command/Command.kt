@@ -21,6 +21,11 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder
 
 interface Command<S> {
     /**
+     * A command literal.
+     */
+    val literal: String
+
+    /**
      * Builds a [literal][LiteralArgumentBuilder] argument that can be used by
      * the [register][CommandDispatcher.register] function on a dispatcher to
      * register this command.

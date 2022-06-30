@@ -25,7 +25,7 @@ import kotlin.reflect.KProperty
 import com.mojang.brigadier.Command as BrigadierCommand
 
 open class DslCommand<S>(
-    private val literal: String,
+    override val literal: String,
     private val apply: (LiteralArgumentBuilder<S>.() -> Unit)? = null,
     private val block: (DslCommandBuilder<S>.() -> Unit),
 ) : Command<S> {
