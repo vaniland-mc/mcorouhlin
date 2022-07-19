@@ -61,7 +61,7 @@ fun <S> DslCommandBuilder<S>.offlinePlayer(
     argument(
         name,
         OfflinePlayerArgumentType(predicate, false),
-        PlayerArgumentType.Companion::getSinglePlayer
+        OfflinePlayerArgumentType.Companion::getSinglePlayer
     )
 
 fun <S> DslCommandBuilder<S>.offlinePlayers(
@@ -71,7 +71,7 @@ fun <S> DslCommandBuilder<S>.offlinePlayers(
     argument(
         name,
         OfflinePlayerArgumentType(predicate, true),
-        PlayerArgumentType.Companion::getMultiplePlayers,
+        OfflinePlayerArgumentType.Companion::getMultiplePlayers,
     )
 
 fun <S> DslCommandBuilder<S>.world(
