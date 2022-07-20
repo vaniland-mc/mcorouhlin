@@ -11,9 +11,6 @@ jobs:
     if: github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/actions/build
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Cache gradle
         uses: gradle/gradle-build-action@v2
       - name: Get release-label
@@ -36,9 +33,11 @@ jobs:
           level: ${{ steps.release-label.outputs.level }}
       - name: Publish
         if: ${{ steps.bump-semver.outputs.new_version != null }}
+        id: publish
         run: |
           SEMANTIC_NEW_VERSION=$(echo ${{ steps.bump-semver.outputs.new_version }} | sed -e 's/^v//')
           ./gradlew -Pmcorouhlin.version=$SEMANTIC_NEW_VERSION publishToSonatype closeAndReleaseSonatypeStagingRepository
+          echo "::set-output name=new_semantic_version::${SEMANTIC_NEW_VERSION}"
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
@@ -50,4 +49,21 @@ jobs:
         uses: actions-ecosystem/action-push-tag@v1
         with:
           tag: ${{ steps.bump-semver.outputs.new_version }}
-          message: '${{ steps.bump-semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
+          message: '${{ steps.bump-semver.outputs.new_version }}(PR #${{ github.event.pull_request.number }}): ${{ github.event.pull_request.title }}'
+      - name: Comment new version to PR
+        if: ${{ steps.bump-semver.outputs.new_version != null }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          URL: ${{ github.event.pull_request.html_url }}
+          VERSION: ${{ steps.publish.outputs.new_semantic_version }}
+        run: |
+          gh pr comment "${URL}" --body $(cat << EOS
+          ## v"${VERSION}" is now available!
+          
+          To use this version, please write dependencies in \`build.gradle.kts\` as
+          \`\`\`
+          implementation\(\"land.vani.mcorouhlin:mcorouhlin-api:"${VERSION}"\"\)
+          implementation\(\"land.vani.mcorouhlin:mcorouhlin-paper:"${VERSION}"\"\)
+          \`\`\`
+          EOS
+          )
