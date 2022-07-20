@@ -18,16 +18,6 @@ plugin.events {
 }
 ```
 
-### Config DSL
-
-```kotlin
-class Config(path: Path) : BukkitConfiguration<Config>(path) {
-    var nullableInt: Int? by value("nullableInt")
-    var defaultInt: Int by value<Int>("defaultInt").default(10)
-    var strictInt: Int by value<Int>("strictInt").strict()
-}
-```
-
 ### Permissions
 
 ```kotlin
