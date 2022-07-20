@@ -11,9 +11,6 @@ jobs:
     if: github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/actions/build
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Cache gradle
         uses: gradle/gradle-build-action@v2
       - name: Get release-label
