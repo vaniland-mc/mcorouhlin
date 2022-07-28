@@ -17,7 +17,31 @@
       "matchPackagePrefixes": [
         "io.kotest:"
       ],
-      "groupName": "kotest"
+      "groupName": "kotest",
+      "labels": [
+        "dependencies",
+        "release/none"
+      ]
+    },
+    {
+      "matchPackagePrefixes": [
+        "io.gitlab.arturbosch.detekt:"
+      ],
+      "groupName": "detekt",
+      "labels": [
+        "dependencies",
+        "release/none"
+      ]
+    },
+    {
+      "matchPackagePrefixes": [
+        "com.github.seeseemelk:MockBukkit-"
+      ],
+      "groupName": "MockBukkit",
+      "labels": [
+        "dependencies",
+        "release/none"
+      ]
     },
     {
       "matchPackagePrefixes": [
