@@ -31,6 +31,12 @@ jobs:
         with:
           current_version: ${{ steps.get-latest-tag.outputs.tag }}
           level: ${{ steps.release-label.outputs.level }}
+      - name: Setup JDK 17
+        uses: graalvm/setup-graalvm@v1
+        with:
+          version: "latest"
+          java-version: "17"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish
         if: ${{ steps.bump-semver.outputs.new_version != null }}
         id: publish
