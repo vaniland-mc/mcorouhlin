@@ -63,13 +63,14 @@ jobs:
           URL: ${{ github.event.pull_request.html_url }}
           VERSION: ${{ steps.publish.outputs.new_semantic_version }}
         run: |
-          gh pr comment "${URL}" --body $(cat << EOS
-          ## v"${VERSION}" is now available!
+          cat << EOS > comments
+          ## v${VERSION} is now available!
           
           To use this version, please write dependencies in \`build.gradle.kts\` as
           \`\`\`
-          implementation\(\"land.vani.mcorouhlin:mcorouhlin-api:"${VERSION}"\"\)
-          implementation\(\"land.vani.mcorouhlin:mcorouhlin-paper:"${VERSION}"\"\)
+          implementation("land.vani.mcorouhlin:mcorouhlin-api:${VERSION}")
+          implementation("land.vani.mcorouhlin:mcorouhlin-paper:${VERSION}")
           \`\`\`
           EOS
-          )
+          
+          gh pr comment "${URL}" --body-file ./comments
