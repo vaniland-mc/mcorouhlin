@@ -6,7 +6,7 @@ plugins {
 
 repositories {
     maven("https://oss.sonatype.org/content/repositories/central")
-    maven("https://papermc.io/repo/repository/maven-public/") {
+    maven("https://repo.papermc.io/repository/maven-public/") {
         content {
             includeGroup("io.papermc.paper")
         }
@@ -15,13 +15,13 @@ repositories {
 
 dependencies {
     api(project(":mcorouhlin-api"))
-    paperDevBundle("1.18.2-R0.1-SNAPSHOT")
+    paperDevBundle("1.19.1-R0.1-SNAPSHOT")
 
     implementation("net.kyori:adventure-extra-kotlin:4.11.0") {
         exclude("net.kyori")
     }
 
-    testImplementation("com.github.seeseemelk:MockBukkit-v1.18:2.85.2") {
+    testImplementation("com.github.seeseemelk:MockBukkit-v1.19:2.102.0") {
         exclude("io.papermc.paper", "paper-api")
     }
     testImplementation(kotlin("reflect"))
