@@ -7,8 +7,9 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
 import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
+import io.papermc.paper.adventure.AdventureComponent
 import land.vani.mcorouhlin.command.arguments.MultipleArgumentParser
-import net.minecraft.network.chat.TextComponent
+import net.kyori.adventure.extra.kotlin.text
 import org.bukkit.Bukkit
 import org.bukkit.World
 import java.util.concurrent.CompletableFuture
@@ -22,9 +23,21 @@ class WorldArgumentType(
     private val allowMultipleWorlds: Boolean,
 ) : ArgumentType<WorldInput> {
     companion object {
-        private val ERROR_WORLD_NOT_FOUND = SimpleCommandExceptionType(TextComponent("World not found"))
+        private val ERROR_WORLD_NOT_FOUND = SimpleCommandExceptionType(
+            AdventureComponent(
+                text {
+                    content("World not found")
+                }
+            )
+        )
         private val ERROR_WORLD_NOT_MEET_CONDITION =
-            SimpleCommandExceptionType(TextComponent("World not meed condition"))
+            SimpleCommandExceptionType(
+                AdventureComponent(
+                    text {
+                        content("World not meed condition")
+                    }
+                )
+            )
 
         private val EXAMPLES = listOf("world")
 

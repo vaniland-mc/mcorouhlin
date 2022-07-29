@@ -7,9 +7,10 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
 import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
+import io.papermc.paper.adventure.AdventureComponent
 import land.vani.mcorouhlin.command.arguments.MultipleArgumentParser
 import land.vani.mcorouhlin.paper.player.getPlayerByUuidOrName
-import net.minecraft.network.chat.TextComponent
+import net.kyori.adventure.extra.kotlin.text
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import java.util.concurrent.CompletableFuture
@@ -26,9 +27,21 @@ class PlayerArgumentType(
         private val EXAMPLES_SINGLE = listOf("Player")
         private val EXAMPLES_MULTIPLE = listOf("Player1", "Player2")
 
-        private val ERROR_PLAYER_NOT_FOUND = SimpleCommandExceptionType(TextComponent("Player not found"))
+        private val ERROR_PLAYER_NOT_FOUND = SimpleCommandExceptionType(
+            AdventureComponent(
+                text {
+                    content("Player not found")
+                }
+            )
+        )
         private val ERROR_PLAYER_NOT_MEET_CONDITION =
-            SimpleCommandExceptionType(TextComponent("Player not meet condition"))
+            SimpleCommandExceptionType(
+                AdventureComponent(
+                    text {
+                        content("Player not meet condition")
+                    }
+                )
+            )
 
         fun getSinglePlayer(context: CommandContext<*>, name: String): Player =
             context.getArgument(name, PlayerInput::class.java).players.single()
