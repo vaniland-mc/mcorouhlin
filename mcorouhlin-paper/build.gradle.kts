@@ -15,11 +15,15 @@ repositories {
 
 dependencies {
     api(project(":mcorouhlin-api"))
-    compileOnly("io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT")
     paperDevBundle("1.18.2-R0.1-SNAPSHOT")
 
-    testCompileOnly("io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT")
-    testImplementation("com.github.seeseemelk:MockBukkit-v1.18:2.85.2")
+    implementation("net.kyori:adventure-extra-kotlin:4.11.0") {
+        exclude("net.kyori")
+    }
+
+    testImplementation("com.github.seeseemelk:MockBukkit-v1.18:2.85.2") {
+        exclude("io.papermc.paper", "paper-api")
+    }
     testImplementation(kotlin("reflect"))
     testImplementation("com.google.jimfs:jimfs:1.2")
 }

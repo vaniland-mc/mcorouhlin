@@ -43,6 +43,16 @@ open class DslCommand<S>(
 
         return dslNode.buildTree()
     }
+
+    final override fun buildLowercaseLiteral(): LiteralArgumentBuilder<S> {
+        val dslNode = LiteralNode<S>(literal.lowercase(), ContextRef())
+        dslNode.apply(apply)
+
+        val builder = DslCommandBuilder(dslNode)
+        block(builder)
+
+        return dslNode.buildTree()
+    }
 }
 
 @CommandDsl

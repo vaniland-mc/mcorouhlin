@@ -18,6 +18,7 @@ private enum class TestEnum {
     ;
 }
 
+@Suppress("RemoveExplicitTypeArguments")
 class EnumArgumentTypeTest : DescribeSpec({
     it("parse") {
         val dispatcher = CommandDispatcher<Any?>()

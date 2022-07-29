@@ -2,10 +2,12 @@ package land.vani.mcorouhlin.paper
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import land.vani.mcorouhlin.command.Command
 import land.vani.mcorouhlin.dispatcher.MinecraftAsyncDispatcher
 import land.vani.mcorouhlin.dispatcher.MinecraftMainThreadDispatcher
 import land.vani.mcorouhlin.event.Events
 import land.vani.mcorouhlin.permission.PermissionRegisterer
+import org.bukkit.command.CommandSender
 import org.bukkit.event.Event
 import org.bukkit.plugin.Plugin
 
@@ -44,4 +46,9 @@ interface McorouhlinPlugin : Plugin, CoroutineScope, PermissionRegisterer {
      * Register events with [Events].
      */
     fun events(block: Events<Event>.() -> Unit)
+
+    /**
+     * Register commands with [Command].
+     */
+    fun registerCommand(command: Command<CommandSender>)
 }
