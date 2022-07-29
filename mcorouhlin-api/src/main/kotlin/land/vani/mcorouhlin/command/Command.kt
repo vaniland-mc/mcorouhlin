@@ -26,17 +26,32 @@ interface Command<S> {
     val literal: String
 
     /**
-     * Builds a [literal][LiteralArgumentBuilder] argument that can be used by
-     * the [register][CommandDispatcher.register] function on a dispatcher to
+     * Builds a [LiteralArgumentBuilder] argument that can be used by
+     * the [CommandDispatcher.register] function on a dispatcher to
      * register this command.
      */
     fun buildLiteral(): LiteralArgumentBuilder<S>
+
+    /**
+     * Builds a [LiteralArgumentBuilder] argument with lowercase literal that can be used by
+     * the [CommandDispatcher.register] function on a dispatcher to
+     * register this command.
+     */
+    fun buildLowercaseLiteral(): LiteralArgumentBuilder<S>
 }
 
 /**
- * [Builds][Command.buildLiteral] a [literal][LiteralArgumentBuilder] argument
+ * Builds [Command.buildLiteral] a [LiteralArgumentBuilder] argument
  * from the specific [command] and registers it to this dispatcher.
  */
 fun <S> CommandDispatcher<S>.register(command: Command<S>) {
     register(command.buildLiteral())
+}
+
+/**
+ * Builds [Command.buildLowercaseLiteral] a [LiteralArgumentBuilder] argument
+ * from the specific [command] and registers it with lowercase literal to this dispatcher.
+ */
+fun <S> CommandDispatcher<S>.registerLowercase(command: Command<S>) {
+    register(command.buildLowercaseLiteral())
 }

@@ -13,11 +13,11 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
 
+@Suppress("RemoveExplicitTypeArguments")
 class DurationArgumentTypeTest : DescribeSpec({
     it("parse") {
         var duration: Duration? = null
         val command = command<Any?>("testCommand") {
-            @Suppress("UNUSED_VARIABLE")
             val durationArg by duration("duration")
 
             runs {
