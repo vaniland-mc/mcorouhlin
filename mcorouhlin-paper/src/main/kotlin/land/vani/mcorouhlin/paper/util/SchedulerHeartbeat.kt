@@ -1,31 +1,45 @@
 package land.vani.mcorouhlin.paper.util
 
 import land.vani.mcorouhlin.paper.McorouhlinKotlinPlugin
+import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.locks.LockSupport
 
 internal fun McorouhlinKotlinPlugin.withSchedulerHeartBeat(block: () -> Unit) {
-    manipulatedServerHeartbeatEnabled = true
+    schedulerSupport.manipulatedServerHeartbeatEnabled = true
     block()
-    manipulatedServerHeartbeatEnabled = false
+    schedulerSupport.manipulatedServerHeartbeatEnabled = false
+}
+
+class SchedulerSupport {
+    internal var manipulatedServerHeartbeatEnabled: Boolean = false
+    internal var primaryThread: Thread? = null
+    internal var threadSupport: ExecutorService? = null
 }
 
 internal fun McorouhlinKotlinPlugin.ensureWakeup() {
-    if (!manipulatedServerHeartbeatEnabled) {
+    if (!schedulerSupport.manipulatedServerHeartbeatEnabled) {
+        schedulerSupport.threadSupport?.shutdown().also {
+            schedulerSupport.threadSupport = null
+        }
         return
     }
 
-    val primaryThread = if (server.isPrimaryThread) {
-        Thread.currentThread()
-    } else {
+    if (schedulerSupport.primaryThread == null && server.isPrimaryThread) {
+        schedulerSupport.primaryThread = Thread.currentThread()
+    }
+
+    if (schedulerSupport.primaryThread == null) {
         return
     }
 
-    val thread = Executors.newSingleThreadExecutor()
+    if (schedulerSupport.threadSupport == null) {
+        schedulerSupport.threadSupport = Executors.newSingleThreadExecutor()
+    }
 
     if (server.scheduler::class.java.simpleName == "CraftScheduler") {
-        thread.submit {
-            LockSupport.getBlocker(primaryThread) ?: return@submit
+        schedulerSupport.threadSupport!!.submit {
+            LockSupport.getBlocker(schedulerSupport.primaryThread) ?: return@submit
 
             val currentTickField = server.scheduler::class.java.getField("currentTick")
                 .apply {
