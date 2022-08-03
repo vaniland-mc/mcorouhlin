@@ -6,10 +6,8 @@ import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.ParseResults
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 import land.vani.mcorouhlin.command.Command
 import land.vani.mcorouhlin.command.registerLowercase
 import land.vani.mcorouhlin.dispatcher.MinecraftAsyncDispatcher
@@ -20,6 +18,7 @@ import land.vani.mcorouhlin.paper.dispatcher.BukkitMinecraftAsyncDispatcher
 import land.vani.mcorouhlin.paper.dispatcher.BukkitMinecraftMainThreadDispatcher
 import land.vani.mcorouhlin.paper.event.BukkitEvents
 import land.vani.mcorouhlin.paper.permission.asBukkit
+import land.vani.mcorouhlin.paper.util.SchedulerSupport
 import land.vani.mcorouhlin.paper.util.withSchedulerHeartBeat
 import land.vani.mcorouhlin.permission.Permission
 import org.bukkit.command.CommandSender
@@ -45,7 +44,7 @@ abstract class McorouhlinKotlinPlugin : JavaPlugin, McorouhlinPlugin {
 
     override val coroutineContext: CoroutineContext = SupervisorJob() + Dispatchers.Unconfined
 
-    internal var manipulatedServerHeartbeatEnabled: Boolean = false
+    internal val schedulerSupport = SchedulerSupport()
 
     override val asyncDispatcher: MinecraftAsyncDispatcher by lazy {
         BukkitMinecraftAsyncDispatcher(this)
@@ -63,8 +62,6 @@ abstract class McorouhlinKotlinPlugin : JavaPlugin, McorouhlinPlugin {
             .maximumSize(10)
             .build()
 
-    private val commandMutex = Mutex()
-
     override suspend fun onEnableAsync() {
         // default empty
     }
@@ -79,20 +76,20 @@ abstract class McorouhlinKotlinPlugin : JavaPlugin, McorouhlinPlugin {
 
     override fun onEnable() {
         withSchedulerHeartBeat {
-            runBlocking(Dispatchers.Unconfined) {
+            runBlocking {
                 onEnableAsync()
             }
         }
     }
 
     override fun onDisable() {
-        runBlocking(Dispatchers.Unconfined) {
+        runBlocking {
             onDisableAsync()
         }
     }
 
     override fun onLoad() {
-        runBlocking(Dispatchers.Unconfined) {
+        runBlocking {
             onLoadAsync()
         }
     }
@@ -107,7 +104,7 @@ abstract class McorouhlinKotlinPlugin : JavaPlugin, McorouhlinPlugin {
         BukkitEvents(this).apply(block)
     }
 
-    override fun registerCommand(command: Command<CommandSender>) {
+    override suspend fun registerCommand(command: Command<CommandSender>) {
         val bukkitCommand = BrigadierCommandWrapper(
             command.literal.lowercase(),
             this,
@@ -115,11 +112,9 @@ abstract class McorouhlinKotlinPlugin : JavaPlugin, McorouhlinPlugin {
             commandCache,
         )
 
-        launch {
-            commandMutex.withLock {
-                server.commandMap.register(name, bukkitCommand)
-                commandDispatcher.registerLowercase(command)
-            }
+        withContext(mainThreadDispatcher) {
+            server.commandMap.register(name, bukkitCommand)
+            commandDispatcher.registerLowercase(command)
         }
     }
 }

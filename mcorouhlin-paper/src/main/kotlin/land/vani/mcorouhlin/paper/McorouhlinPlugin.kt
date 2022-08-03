@@ -50,5 +50,5 @@ interface McorouhlinPlugin : Plugin, CoroutineScope, PermissionRegisterer {
     /**
      * Register commands with [Command].
      */
-    fun registerCommand(command: Command<CommandSender>)
+    suspend fun registerCommand(command: Command<CommandSender>)
 }
