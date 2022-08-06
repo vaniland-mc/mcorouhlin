@@ -19,6 +19,7 @@ import land.vani.mcorouhlin.permission.Permission
 import land.vani.mcorouhlin.permission.PermissionDefault
 import land.vani.mcorouhlin.permission.registerPermissions
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.plugin.PluginDescriptionFile
@@ -108,6 +109,7 @@ class McorouhlinKotlinPluginTest : DescribeSpec({
 
     describe("events") {
         it("on") {
+            LegacyComponentSerializer.legacySection()
             val player = server.addPlayer()
             var executed = false
             plugin.events {

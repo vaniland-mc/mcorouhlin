@@ -7,8 +7,8 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
 import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
-import io.papermc.paper.adventure.AdventureComponent
 import land.vani.mcorouhlin.command.arguments.MultipleArgumentParser
+import land.vani.mcorouhlin.paper.component.AdventureComponent
 import net.kyori.adventure.extra.kotlin.text
 import org.bukkit.Bukkit
 import org.bukkit.World
