@@ -62,7 +62,11 @@ class BrigadierCommandWrapper(
     override fun getPlugin(): Plugin = plugin
 
     private fun joinCommand(label: String, args: Array<out String>): String =
-        label + args.joinToString(" ", " ")
+        if (args.isEmpty()) {
+            label
+        } else {
+            "$label ${args.joinToString(" ")}"
+        }
 
     private fun parsedCommand(command: String, sender: CommandSender): ParseResults<CommandSender> =
         commandCache.getIfPresent(command to sender)
