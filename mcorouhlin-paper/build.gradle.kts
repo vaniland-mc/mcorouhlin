@@ -21,11 +21,13 @@ dependencies {
         exclude("net.kyori")
     }
 
-    testImplementation("com.github.seeseemelk:MockBukkit-v1.19:2.106.0") {
-        exclude("io.papermc.paper", "paper-api")
-    }
+    testImplementation("com.github.seeseemelk:MockBukkit-v1.19:2.111.3")
     testImplementation(kotlin("reflect"))
     testImplementation("com.google.jimfs:jimfs:1.2")
+}
+
+configurations.testImplementation {
+    exclude("io.papermc.paper", "paper-server")
 }
 
 tasks {
