@@ -11,7 +11,7 @@ fun itemStack(material: Material, amount: Int = 1, block: ItemStack.() -> Unit =
 
 fun <T : ItemMeta> ItemStack.editMeta(metaClass: KClass<T>, block: T.() -> Unit): Boolean {
     val meta = itemMeta
-    if (hasItemMeta() && metaClass.isInstance(meta)) {
+    if (metaClass.isInstance(meta)) {
         metaClass.cast(meta).apply(block)
         itemMeta = meta
         return true
