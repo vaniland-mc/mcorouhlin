@@ -18,9 +18,11 @@ allprojects {
     }
 }
 
-tasks.koverMergedXmlReport {
-    isEnabled = true
-    xmlReportFile.set(layout.buildDirectory.file("reports/kover/merged.xml"))
+koverMerged {
+    enable()
+    xmlReport {
+        reportFile.set(layout.buildDirectory.file("reports/kover/merged.xml"))
+    }
 }
 
 nexusPublishing {
