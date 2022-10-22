@@ -21,7 +21,7 @@ dependencies {
         exclude("net.kyori")
     }
 
-    testImplementation("com.github.seeseemelk:MockBukkit-v1.19:2.126.0")
+    testImplementation("com.github.seeseemelk:MockBukkit-v1.19:2.126.1")
     testImplementation(kotlin("reflect"))
     testImplementation("com.google.jimfs:jimfs:1.2")
 }
