@@ -17,7 +17,7 @@ dependencies {
     api(project(":mcorouhlin-api"))
     paperDevBundle("1.19.2-R0.1-SNAPSHOT")
 
-    implementation("net.kyori:adventure-extra-kotlin:4.11.0") {
+    implementation("net.kyori:adventure-extra-kotlin:4.12.0") {
         exclude("net.kyori")
     }
 
