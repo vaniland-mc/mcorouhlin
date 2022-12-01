@@ -13,7 +13,7 @@ repositories {
 dependencies {
     implementation(gradleApi())
     implementation(kotlin("gradle-plugin"))
-    implementation("org.gradle.kotlin:gradle-kotlin-dsl-plugins:3.2.2")
+    implementation("org.gradle.kotlin:gradle-kotlin-dsl-plugins:3.2.3")
     implementation("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.21.0")
     implementation("org.jetbrains.dokka:dokka-gradle-plugin:1.7.20")
 }
