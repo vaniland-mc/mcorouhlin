@@ -15,19 +15,14 @@ repositories {
 
 dependencies {
     api(project(":mcorouhlin-api"))
-    paperDevBundle("1.19.2-R0.1-SNAPSHOT")
+    paperDevBundle("1.19.3-R0.1-SNAPSHOT")
 
     implementation("net.kyori:adventure-extra-kotlin:4.12.0") {
         exclude("net.kyori")
     }
 
-    testImplementation("com.github.seeseemelk:MockBukkit-v1.19:2.145.0")
     testImplementation(kotlin("reflect"))
     testImplementation("com.google.jimfs:jimfs:1.2")
-}
-
-configurations.testImplementation {
-    exclude("io.papermc.paper", "paper-server")
 }
 
 tasks {

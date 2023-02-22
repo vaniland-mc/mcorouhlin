@@ -39,16 +39,6 @@
     },
     {
       "matchPackagePrefixes": [
-        "com.github.seeseemelk:MockBukkit-"
-      ],
-      "groupName": "MockBukkit",
-      "labels": [
-        "dependencies",
-        "release/none"
-      ]
-    },
-    {
-      "matchPackagePrefixes": [
         "org.jetbrains.kotlinx:kotlinx-coroutines-"
       ],
       "groupName": "kotlinx-coroutines"
