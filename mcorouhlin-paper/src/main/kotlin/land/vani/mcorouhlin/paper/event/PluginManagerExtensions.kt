@@ -102,18 +102,20 @@ fun PluginManager.callSuspendEvent(event: Event): Collection<Job> {
             } catch (ex: AuthorNagException) {
                 if (it.plugin.isNaggable) {
                     it.plugin.isNaggable = false
+                    @Suppress("UnstableApiUsage")
                     server.logger.log(
                         Level.SEVERE,
                         "Nag author(s): '%s' of '%s' about the following: %s".format(
-                            it.plugin.description.authors,
-                            it.plugin.description.fullName,
+                            it.plugin.pluginMeta.authors,
+                            it.plugin.pluginMeta.name,
                             ex.message
                         ),
                     )
                 }
                 null
-            } catch (ex: Throwable) {
-                val msg = "Could not pass event ${event.eventName} to ${it.plugin.description.fullName}"
+            } catch (@Suppress("TooGenericExceptionCaught") ex: Throwable) {
+                @Suppress("UnstableApiUsage")
+                val msg = "Could not pass event ${event.eventName} to ${it.plugin.pluginMeta.name}"
                 server.logger.log(Level.SEVERE, msg, ex)
                 if (event !is ServerExceptionEvent) { // We don't want to cause an endless event loop
                     callEvent(ServerExceptionEvent(ServerEventException(msg, ex, it.plugin, it.listener, event)))
@@ -139,8 +141,9 @@ private fun createRegisteredSuspendListener(
             if (method.isEventHandler || method.isSuspendEventHandler) {
                 true
             } else {
+                @Suppress("UnstableApiUsage")
                 plugin.logger.severe(
-                    "${plugin.description.fullName} attempted to register " +
+                    "${plugin.pluginMeta.name} attempted to register " +
                         "an invalid SuspendEventHandler method signature."
                 )
                 false
@@ -162,9 +165,10 @@ private fun createRegisteredSuspendListener(
                     break
                 }
 
+                @Suppress("UnstableApiUsage")
                 val message = "\"%s\" has registered a listener for %s on method \"%s\", " +
                     "but the event is Deprecated. \"%s\"; please notify the authors %s.".format(
-                        plugin.description.fullName,
+                        plugin.pluginMeta.name,
                         clazz.name,
                         method.toGenericString(),
                         if (warning?.reason?.isNotEmpty() == true) {
@@ -172,7 +176,7 @@ private fun createRegisteredSuspendListener(
                         } else {
                             "Server performance will be affected"
                         },
-                        plugin.description.authors.joinToString()
+                        plugin.pluginMeta.authors.joinToString()
                     )
 
                 plugin.logger.log(

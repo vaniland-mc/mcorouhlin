@@ -23,26 +23,14 @@ import land.vani.mcorouhlin.paper.util.withSchedulerHeartBeat
 import land.vani.mcorouhlin.permission.Permission
 import org.bukkit.command.CommandSender
 import org.bukkit.event.Event
-import org.bukkit.plugin.PluginDescriptionFile
 import org.bukkit.plugin.java.JavaPlugin
-import org.bukkit.plugin.java.JavaPluginLoader
-import java.io.File
 import java.time.Duration
 import kotlin.coroutines.CoroutineContext
 
 /**
  * Represents a JavaPlugin with mcorouhlin framework.
  */
-abstract class McorouhlinKotlinPlugin : JavaPlugin, McorouhlinPlugin {
-    constructor() : super()
-
-    constructor(
-        loader: JavaPluginLoader,
-        description: PluginDescriptionFile,
-        dataFolder: File,
-        file: File,
-    ) : super(loader, description, dataFolder, file)
-
+abstract class McorouhlinKotlinPlugin : JavaPlugin(), McorouhlinPlugin {
     override val coroutineContext: CoroutineContext = SupervisorJob() + Dispatchers.Unconfined
 
     internal val schedulerSupport = SchedulerSupport()
