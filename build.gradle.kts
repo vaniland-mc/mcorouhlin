@@ -2,7 +2,7 @@ plugins {
     id("land.vani.setup.kotlin") apply false
     id("land.vani.setup.maven") apply false
     id("org.jetbrains.kotlinx.kover") version "0.5.1"
-    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
+    id("io.github.gradle-nexus.publish-plugin") version "1.2.0"
 }
 
 group = "land.vani"
