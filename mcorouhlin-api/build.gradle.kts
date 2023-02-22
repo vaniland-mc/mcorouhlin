@@ -1,6 +1,7 @@
 plugins {
     id("land.vani.setup.kotlin")
     id("land.vani.setup.maven")
+    id("org.jetbrains.kotlinx.kover")
 }
 
 dependencies {

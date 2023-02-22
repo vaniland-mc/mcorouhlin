@@ -2,6 +2,7 @@ plugins {
     id("land.vani.setup.kotlin")
     id("land.vani.setup.maven")
     id("io.papermc.paperweight.userdev") version "1.5.1"
+    id("org.jetbrains.kotlinx.kover")
 }
 
 repositories {
@@ -15,7 +16,7 @@ repositories {
 
 dependencies {
     api(project(":mcorouhlin-api"))
-    paperDevBundle("1.19.3-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.19.3-R0.1-SNAPSHOT")
 
     implementation("net.kyori:adventure-extra-kotlin:4.12.0") {
         exclude("net.kyori")

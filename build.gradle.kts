@@ -1,7 +1,7 @@
 plugins {
     id("land.vani.setup.kotlin") apply false
     id("land.vani.setup.maven") apply false
-    id("org.jetbrains.kotlinx.kover") version "0.5.1"
+    id("org.jetbrains.kotlinx.kover") version "0.6.0"
     id("io.github.gradle-nexus.publish-plugin") version "1.2.0"
 }
 
@@ -18,9 +18,11 @@ allprojects {
     }
 }
 
-tasks.koverMergedXmlReport {
-    isEnabled = true
-    xmlReportFile.set(layout.buildDirectory.file("reports/kover/merged.xml"))
+koverMerged {
+    enable()
+    xmlReport {
+        reportFile.set(layout.buildDirectory.file("reports/kover/merged.xml"))
+    }
 }
 
 nexusPublishing {
