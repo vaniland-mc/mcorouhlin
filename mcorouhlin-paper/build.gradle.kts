@@ -1,7 +1,7 @@
 plugins {
     id("land.vani.setup.kotlin")
     id("land.vani.setup.maven")
-    id("io.papermc.paperweight.userdev") version "1.5.2"
+    id("io.papermc.paperweight.userdev") version "1.5.3"
     id("org.jetbrains.kotlinx.kover")
 }
 
