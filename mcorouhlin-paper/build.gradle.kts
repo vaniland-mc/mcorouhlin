@@ -23,7 +23,7 @@ dependencies {
     }
 
     testImplementation(kotlin("reflect"))
-    testImplementation("com.google.jimfs:jimfs:1.2")
+    testImplementation("com.google.jimfs:jimfs:1.3.0")
 }
 
 tasks {
