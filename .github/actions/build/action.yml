@@ -41,6 +41,6 @@ runs:
       run: ./gradlew koverMergedXmlReport
     - name: Upload coverage reports
       if: always()
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v4
       with:
         files: build/reports/kover/merged.xml
