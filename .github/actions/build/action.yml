@@ -20,7 +20,7 @@ runs:
     - name: Cache gradle
       uses: gradle/gradle-build-action@v2
     - name: Validate gradle wrapper
-      uses: gradle/wrapper-validation-action@v1
+      uses: gradle/wrapper-validation-action@v2
     - name: Build
       shell: bash
       run: ./gradlew build
