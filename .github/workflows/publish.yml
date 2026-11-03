@@ -35,7 +35,7 @@ jobs:
         uses: graalvm/setup-graalvm@v1
         with:
           version: "latest"
-          java-version: "17"
+          java-version: "25"
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish
         if: ${{ steps.bump-semver.outputs.new_version != null }}
